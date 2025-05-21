@@ -1,88 +1,24 @@
-# 📄 RMarkdown Templates
+# Mecânica Clássica - Soluções Analíticas (Taylor, J. R.)
 
-Bem-vindo ao repositório de templates de arquivos RMarkdown!
-Este repositório contém modelos customizados que utilizam um arquivo LaTeX (template.tex) para formatação, permitindo a geração de documentos bem estruturados com suporte à execução de código tanto em R quanto em Python — ideal para análises reprodutíveis e relatórios técnicos.
+## Descrição do Projeto
 
-## 🌱 Origem e Melhorias
+Este projeto é dedicado à resolução analítica de problemas selecionados do livro Mecânica Clássica de John R. Taylor. O trabalho abrange tópicos fundamentais da mecânica teórica, com ênfase em:
 
-Este repositório é um fork do projeto original de [iandrade-uft/template-solucionario-rmd](https://github.com/iandrade-uft/template-solucionario-rmd).
+    Movimento unidimensional e sistemas de partículas
 
-As principais melhorias implementadas incluem:
+    Dinâmica Lagrangiana e Hamiltoniana
 
- * 📁 Reorganização da estrutura de pastas, com separação clara entre ativos estáticos, código-fonte e arquivos gerados;
+    Movimento de corpos rígidos
 
- * 🌐 Inclusão de uma página HTML (index.html) para apresentação do projeto via GitHub Pages;
+    Sistemas com restrições
 
- * ⚙️ Suporte completo a código R e Python dentro dos arquivos .Rmd.
+## Metodologia de Trabalho
 
-## 📂 Estrutura do Repositório
+1. **Análise teórica**: Identificação das leis físicas e aproximações relevantes para cada problema
+2. **Desenvolvimento matemático**: Formulação completa das equações de movimento, incluindo condições iniciais e de contorno
+3. **Validação**: Comparação com casos conhecidos e limites de validade das soluções
+4. **Complementação computacional**: Uso de Python para verificação numérica quando necessário
 
-    .
-    ├── assets/                         # Recursos estáticos para a página HTML
-    │   ├── css/                        # Estilos CSS
-    │   ├── img/                        # Imagens utilizadas
-    │   └── js/                         # Scripts JavaScript
-    │
-    ├── vendor/                         # Dependências de terceiros (se aplicável)
-    │
-    ├── output/                         # Documentos gerados
-    │   ├── template_using_python.pdf   # PDF gerado com código em Python
-    │   └── template_using_r.pdf        # PDF gerado com código em R
-    │
-    ├── src/                            # Arquivos-fonte dos documentos
-    │   ├── template_using_python.Rmd   # RMarkdown com código em Python
-    │   └── template_using_r.Rmd        # RMarkdown com código em R
-    │
-    ├── template.tex                    # Template LaTeX usado na formatação final
-    ├── index.html                      # Página de apresentação (GH Pages)
-    ├── .gitignore                      # Arquivo de exclusão do Git
-    ├── LICENSE.txt                     # Licença do projeto
-    └── README.md                       # Este arquivo de documentação
+## GH Pages
 
-## 🚀 Como Usar
-
-Para usar os templates deste repositório, siga os passos abaixo:
-
-1. Clone o repositório:
-
-        git clone https://github.com/costandrad/template-solucionario-rmd.git
-
-2. Acesse o diretório clonado:
-
-        cd template-solucionario-rmd
-
-3. Escolha e edite um dos arquivos .Rmd:
-
-    * Para Python: 
-
-            src/template_using_python.Rmd
-
-     * Para R: 
-        
-            src/template_using_r.Rmd
-
-4. Compile o documento no RStudio ou usando o `rmarkdown::render()`  no console do R.
-
-
-## 📄 Licença
-
-Este projeto está licenciado sob a licença MIT.
-Confira o arquivo [LICENSE.txt](https://github.com/costandrad/template-solucionario-rmd/blob/main/LICENSE.txt) para mais informações.
-
-## 🧑‍💻 Autor
-
-### Igo da Costa Andrade
-
-<p align="left">
-  <a href="https://costandrad.github.io/" target="_blank">
-    <img src="https://img.shields.io/badge/GitHub%20Pages-gray?logo=github&width=200&height=36" alt="Github Pages" style="vertical-align:top;">
-  </a>
-
-  <a href="mailto:costandrad@gmail.com" target="_blank">
-    <img src="https://img.shields.io/badge/Email-white?logo=gmail&width=200&height=36" alt="Email" style="vertical-align:top;">
-  </a>
-
-  <a href="http://lattes.cnpq.br/9812776894168057" target="_blank">
-    <img src="https://img.shields.io/badge/Lattes-blue?logo=google-scholar&logoColor=white&width=200&height=36" alt="Lattes" style="vertical-align:top;">
-  </a>
-</p>
+[https://costandrad.github.io/mecanica-classica-taylor/](https://costandrad.github.io/mecanica-classica-taylor/)
