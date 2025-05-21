@@ -2475,6 +2475,8 @@ section,
 /*--------------------------------------------------------------
 # Portfolio Details Section
 --------------------------------------------------------------*/
+
+
 .portfolio-details .portfolio-details-slider img {
   width: 100%;
 }
@@ -2531,6 +2533,20 @@ section,
 .portfolio-details .swiper-pagination .swiper-pagination-bullet-active {
   background-color: var(--accent-color);
 }
+
+.swiper-slide {
+  height: 400px;
+  background-color: #ffffff;
+}
+
+.swiper-slide img {
+  height: 400px; /* ajuste conforme necessário */
+  width: auto;
+  object-fit: contain; /* ou 'contain', dependendo do efeito desejado */
+  display: block;
+  margin: 0 auto;
+}
+
 
 .portfolio-details .portfolio-info h3 {
   font-size: 22px;
