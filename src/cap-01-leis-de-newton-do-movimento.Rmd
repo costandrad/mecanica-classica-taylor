@@ -1,0 +1,771 @@
+---
+title: ""
+author: "Igo da Costa Andrade"
+
+# Metadados
+booktitle: "Mecânica Clássica"
+#booksubtitle: "Subtítulo do Livro"
+bookauthors: "Taylor, J. R."
+bookaddres: "Porto Alegre"
+bookpublisher: "Bookman"
+bookyear: "2013"
+maincolor: "dc2531"
+chaptertitle: "Leis de Newton do Movimento"
+chapternumber: "1"
+
+output: 
+  bookdown::pdf_document2:
+    template: template.tex
+knit: >-
+  (function(inputFile, encoding) {
+    rmarkdown::render(
+      input = inputFile,
+      encoding = encoding,
+      output_dir = file.path(dirname(inputFile), "../output"),
+      output_format = "bookdown::pdf_document2"
+    )
+  })
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(reticulate)
+use_python("~/anaconda3/envs/science/bin/python")
+# Funções auxiliares
+fmt <- function(x, n=2, decimal.mark=",", big.mark=".", scientific=FALSE) {
+  result <- format(round(x, n), decimal.mark=decimal.mark, big.mark=big.mark, scientific=scientific)
+  return(result)
+}
+```
+
+\section*{PROBLEMAS}
+
+\subsection*{Seção 1.2 Espaço e Tempo}
+
+\begin{enumerate}
+  \item Dados dois vetores $\vet{v} = \ux + \uy$ e $\vet{c} = \ux + \uz$, determine $\vet{b} + \vet{c}$, $5\vet{b} + 2\vet{c}$, $\vet{b} \cdot \vet{c}$ e $\vet{b} \times \vet{c}$.\\
+  \iniSol
+    \begin{small}
+    \begin{align*}
+      \vet{b} + \vet{c} &= (\ux + \uy) + (\ux + \uz) = \ux + \uy  + \ux + \uz = 2\ux + \uy + \uz\\
+      5\vet{b} + 2\vet{c} &= 5 (\ux + \uy) + 2(\ux + \uz) = 5\ux + 5\uy + 2\ux + 2\uz = 7\ux + 5\uy + 2\uz\\
+      \vet{b} \cdot \vet{c} &= (\ux + \uy) \cdot (\ux + \uz) = \ux \cdot \ux + \ux \cdot \uz + \uy \cdot \ux + \uy \cdot \uz = 1 + 0 + 0 + 0 = 1\\
+      \vet{b} \times \vet{c} &= 
+      \begin{vmatrix}
+        \ux & \uy & \uz\\
+        1 & 1 & 0\\
+        1 & 0 & 1
+      \end{vmatrix} = 
+      \ux \begin{vmatrix}
+        1 & 0\\
+        0 & 1
+      \end{vmatrix} -
+      \uy \begin{vmatrix}
+        1 & 0\\
+        1 & 1
+      \end{vmatrix} + 
+      \uz \begin{vmatrix}
+        1 & 1\\
+        1 & 0
+      \end{vmatrix}
+      \\
+      &= \ux (1 \cdot 1 - 0 \cdot 0) - \uy (1 \cdot 1 - 1 \cdot 0) + \uz (1 \cdot 0 - 1 \cdot 1) = \ux - \uy - \uz
+    \end{align*}
+    \end{small}
+  \fimSol
+  %%%%
+  \item Dois vetores são dados como $\vet{b} = (1,2,3)$ e $\vet{c} = (3, 2, 1)$. (Lembre-se de que essas declarações são uma forma compacta de fornacer as componentes dos vetores.) Determine $\vet{b} + \vet{c}$, $5\vet{b} + 2\vet{c}$, $\vet{b} \cdot \vet{c}$ e $\vet{b} \times \vet{c}$.\\
+  \iniSol
+    \begin{small}
+    \begin{align*}
+      \vet{b} + \vet{c} &= (1+3, 2+2, 3+1) = (4, 4, 4) = 2\ux + 4\uy + 4\uz\\
+      5\vet{b} + 2\vet{c} &= (5\cdot 1+ 2 \cdot 3, 5\cdot 2+ 2 \cdot 2, 5\cdot 3+ 2 \cdot 1) = (5+6, 10+4, 15+2) = (11, 14,17) = 11\ux + 14\uy + 17\uz\\
+      \vet{b} \cdot \vet{c} &= 1 \cdot 3 + 2 \cdot 2 + 3 \cdot 1 = 3 + 4 + 3 = 10\\
+      \vet{b} \times \vet{c} &= 
+      \begin{vmatrix}
+        \ux & \uy & \uz\\
+        1 & 2 & 3\\
+        3 & 2 & 1
+      \end{vmatrix}
+      = \ux \begin{vmatrix}
+      2 & 3\\
+      2 & 1
+      \end{vmatrix}
+      - \uy \begin{vmatrix}
+        1 & 3\\
+        3 & 1
+      \end{vmatrix}
+      + \uz \begin{vmatrix}
+        1 & 2\\
+        3 & 2
+      \end{vmatrix}
+      \\ &= \ux (2 \cdot 1 - 2 \cdot 3) - \uy (1 \cdot 1 - 3 \cdot 3) + \uz (1 \cdot 2 - 3 \cdot 2) = -4\ux + 8\uy -4\uz
+    \end{align*}
+    \end{small}
+  \fimSol
+  %%%%
+  \item Aplicando o teorema de Pitágorás (a versão comum bidimensional) duas vezes, mostre que o comprimento $r$ de um vetor tridimensional $\vet{r} = (x, y,z)$ satisaz $r^2 = x^2 + y^2 + z^2$.\\
+  \iniSol
+    \begin{figure}[H]
+      \centering
+      \tdplotsetmaincoords{75}{125}
+      \begin{tikzpicture}[tdplot_main_coords]
+        \draw[-latex] (0,0,0) -- (5, 0, 0) node[above] {$x$}; 
+        \draw[-latex] (0,0,0) -- (0, 5, 0) node[above] {$y$};
+        \draw[-latex] (0,0,0) -- (0, 0, 5) node[above] {$z$};
+        \draw[-latex, thick] (0,0,0) -- (2, 4, 3) node [above] {$\vet{r}$} node[right] {$P$};
+        \draw[dashed] (2, 0, 0) node[above] {$x$} node[below] {$A$}-- (2, 4, 0) node[below] {$P^\prime$} -- (0, 4, 0) node[below] {$B$} node[above] {$y$};
+        \draw[dashed] (0, 0, 0) node[left, xshift=-5pt] {$O$} -- (2, 4, 0) -- (2, 4, 3) -- (0, 0, 3) node[left] {$z$};
+        \draw (2, 0, 0) -- ++(-0.4, 0, 0) -- ++(0, 0.4, 0) -- ++(0.4, 0, 0);
+        \filldraw (2, 0, 0) ++ (-0.2, 0.2, 0) circle (0.8pt);
+        \draw (2, 4, 0.4) -- ++ (-0.2, -0.4, 0) -- ++(0, 0, -0.4);
+        \filldraw (2, 4, 0)  ++ (-0.1, -0.2, 0.2) circle (0.5pt);
+      \end{tikzpicture}
+    \end{figure}
+    Conforme figura acima, consideremos o vetor $\vet{r} = (x, y, z)$ localizado no ponto $P$, tal que sua projeção ortogonal no plano $xy$ é ponto $P^\prime = (x,y, 0)$. 
+    %%
+    No plano $xy$, tomamos o triângulo $OAP^\prime$, retângulo no ponto $A = (x, 0, 0)$ e apliquemos o teorema de Pitágoras:
+    \begin{equation}
+      \overline{OP^\prime}^2 = \overline{OA}^2 + \overline{AP^\prime}^2  = x^2 + y^2. \label{eq:1.3.1}
+    \end{equation}
+    %%
+    EM seguida, consideremos o triânguloa $OP^\prime P$, reto em $P^\prime$ e apliquemos o teorema de Pitágoras:
+    \begin{align}
+      \overline{OP}^2 = \overline{OP^\prime}^2 + \overline{P^\prime P}^2 \Rightarrow \overline{OP}^2 = \overline{OP^\prime}^2 + z^2 \nonumber \\
+      \Rightarrow r^2 = \overline{OP^\prime}^2 + z^2 \label{eq:1.3.2}
+    \end{align}
+    Substituindo $\overline{OP^\prime}^2$ de (\ref{eq:1.3.1}) em (\ref{eq:1.3.2}), obtemos:
+    $$
+    r^2 = x^2 +y^2 + z^2.
+    $$
+  \fimSol
+  %%%%
+  \item Um dos muitos usos do produto escalar é na determinação do ângulo entre dois vetores dados. Determine o ângulo entre os vetores $\vet{b} = (1,2,4)$ e $\vet{c} = (4,2,1)$ através do cálculo do produto escalar entre eles.\\
+  \iniSol
+```{r, include=FALSE}
+n <- 51
+p <- seq(from=0, to=1, length=n)
+b <- c(1,2,4); c <- c(4,2,1)
+b_uni <- b/sqrt(sum(b^2)); c_uni <- c/sqrt(sum(c^2))
+
+arc <- "\\draw[fill=gray, fill opacity=0.4]  (0,0,0)"
+
+for (i in 1:n) {
+  a <- p[i]*b_uni + (1-p[i])*c_uni
+  a <- 1.5*a/sqrt(sum(a^2))
+  arc = sprintf("%s -- (%.2f, %.2f, %.2f)", arc, a[1], a[2], a[3])
+}
+arc <- sprintf("%s -- (0,0,0) --  cycle;", arc)
+a <- 0.5*(b_uni+c_uni)
+theta <- (180/pi) * acos(sum(b*c)/( sqrt(sum(b^2)) * sqrt(sum(c^2)))) 
+arc <- sprintf("%s\\node[right, xshift=5pt] at (%.2f, %.2f, %.2f) {$ %s ^\\circ$};", arc, a[1], a[2], a[3], fmt(theta, n=1))
+```
+    \begin{align*}
+      \vet{b} \cdot \vet{c} = b c \cos{\theta} &\Rightarrow \cos{\theta} = \dfrac{\vet{b} \cdot \vet{c}}{bc} = \dfrac{1 \cdot 4 + 2 \cdot 2 + 4 \cdot 1}{\sqrt{1^2 + 2^2 + 4^2} \sqrt{4^2 + 2^2 + 1^2}}\\
+      &\Rightarrow \cos{\theta} = \dfrac{`r sum(b*c)`}{\sqrt{`r sum(b^2)`} \sqrt{`r sum(c^2)`}} = \dfrac{`r sum(b*c)`}{`r sum(b^2)`} = \dfrac{`r sum(b*c)/3`}{`r sqrt(sum(b^2)) * sqrt(sum(c^2))/3`}\\
+      &\Rightarrow \theta = \arccos{\left(\dfrac{`r sum(b*c)/3`}{`r sqrt(sum(b^2)) * sqrt(sum(c^2))/3`}\right)} = `r fmt(theta, n=1)`^\circ
+    \end{align*}
+    %%%%
+    \begin{figure}[H]
+      \centering
+      \tdplotsetmaincoords{60}{105}
+      \begin{tikzpicture}[tdplot_main_coords]
+        \draw[-latex] (0,0,0) -- (5, 0, 0) node[left] {$x$}; 
+        \draw[-latex] (0,0,0) -- (0, 5, 0) node[above] {$y$};
+        \draw[-latex] (0,0,0) -- (0, 0, 5) node[above] {$z$};
+        \draw[-latex, thick, red] (0,0,0) -- (1, 2, 4) node [right] {$\vet{b}$};
+        \draw[-latex, thick, blue] (0,0,0) -- (4, 2, 1) node [right] {$\vet{c}$};
+        \draw[dashed, red] (1, 0, 0) node[left, black] {$1$} -- (1, 2, 0) -- (0, 2, 0) node[above, black] {$2$} (1, 2, 0) -- (1, 2, 4) -- (0, 0, 4) node[left, black] {$4$} (0,0,0) -- (1,2,0);
+        \draw[dashed, blue] (4, 0, 0) node[left, black] {$4$} -- (4, 2, 0) -- (0, 2, 0) (4, 2, 0) -- (4,2, 1) -- (0, 0, 1) node[left, black] {$1$} (0,0,0) -- (4, 2, 0);
+        `r arc`
+      \end{tikzpicture}
+    \end{figure}
+  \fimSol
+  %%%%
+  \item Determine o ângulo entre a diagonal do corpo de um cubo e qualquer das diagonais de suas faces. [\textit{Sugestão}: escolha um cubo de lado 1 e com um dos vértices em $O$ e o vértice oposto $(1,1,1)$. Escreva o vetor que representa uma diagonal do corpo e o outro que represente a diagonal de uma face, e então determine o ângulo entre elas conforme o Problema 1.4.]\\
+  \iniSol
+```{r, include=FALSE}
+u <- c(1,1,1)
+v <- c(1,1,0)
+theta <- (180/pi) * acos(sum(u*v) / (sqrt(sum(u*u) * sum(v*v))))
+u_uni <- u/sqrt(sum(u^2))
+v_uni <- v/sqrt(sum(v^2))
+n <- 51
+p <- seq(from=0, to=1, length=n)
+arc <- "\\draw[fill=gray, fill opacity=0.4] (0,0,0) "
+for (i in 1:n) {
+  a <- 1.5*(p[i]*u_uni + (1-p[i])*v_uni)
+  arc <- sprintf("%s -- (%.4f, %.4f, %.4f)", arc, a[1], a[2], a[3])
+}
+a <- 1.5 * (0.5 * (u_uni+v_uni))
+arc <- sprintf("%s -- cycle;\\node[below, xshift=25pt, yshift=-12pt, rotate=-10] at (%.4f, %.4f, %.4f) {$\\theta = %s^\\circ$};", arc, a[1], a[2], a[2], fmt(theta, n=1))
+```
+  Sem perda de generalizade, consideremos os vetores $\vet{u} = (1,1,1)$ e $\vet{v} = (1,1,0)$, tais que:
+  \begin{align*}
+    \begin{cases}
+      u = |\vet{u}| = \sqrt{`r knitr::combine_words(u, before="", after="^2", and="", sep="+")`} = \sqrt{`r sum(u)`}\\
+      v = |\vet{v}| = \sqrt{`r knitr::combine_words(v, before="", after="^2", and="", sep="+")`} = \sqrt{`r sum(v)`}
+    \end{cases}
+  \end{align*}
+  Então,
+  \begin{align*}
+    \vet{u} \cdot \vet{v} = u v \cos{\theta} &\Rightarrow \cos{\theta} = \dfrac{\vet{u} \cdot \vet{v}}{u v} = \dfrac{`r knitr::combine_words(paste(u, v, sep=" \\cdot "), sep=" + ", and="")`}{\sqrt{`r sum(u)`} \cdot \sqrt{`r sum(v)`}}\\
+    &\Rightarrow \cos{\theta} = \dfrac{`r sum(u*v)`}{\sqrt{`r sum(u) * sum(v)`}} = \dfrac{`r sum(u*v)` \sqrt{`r sum(u) * sum(v)`} }{`r sum(u) * sum(v)`}\\
+    &\Rightarrow \theta = \arccos{\left(\dfrac{`r sum(u*v)` \sqrt{`r sum(u) * sum(v)`} }{`r sum(u) * sum(v)`}\right)} = `r fmt(theta, n=1)`^\circ
+  \end{align*}
+  \begin{figure}[H]
+    \centering
+    \tdplotsetmaincoords{60}{105}
+    \begin{tikzpicture}[tdplot_main_coords]
+        \draw[-latex] (0,0,0) -- (5, 0, 0) node[left] {$x$}; 
+        \draw[-latex] (0,0,0) -- (0, 5, 0) node[above] {$y$};
+        \draw[-latex] (0,0,0) -- (0, 0, 5) node[above] {$z$};
+        \draw[dashed] (4, 0, 0) node[left] {$1$} -- (4, 4, 0) -- (0, 4, 0) node[above, xshift=5pt] {$1$};
+        \draw[dashed] (4, 0, 4) -- (4,4,4) -- (0, 4, 4) -- (0, 0, 4) node[left] {$1$} -- (4, 0, 4) -- cycle;
+        \draw[dashed] (4, 0, 0) -- (4, 0, 4);
+        \draw[dashed] (4, 4, 0) -- (4, 4, 4);
+        \draw[dashed] (0, 4, 0) -- (0, 4, 4);
+        \draw[-latex, thick] (0,0,0) -- (4,4,4) node[midway, above] {$\vet{u}$};
+        \draw[-latex, thick] (0,0,0) -- (4,4,0) node[midway, left, xshift=-5pt] {$\vet{v}$};
+        `r arc`
+    \end{tikzpicture}
+  \end{figure}
+  \fimSol
+  %%%%
+  \item Utilizando o produto escalar, determine os valores do escalar $s$ para os quais os vetores $\vet{b} = \ux + s\uy$ e $\vet{c} = \ux - s \uy$ são ortogonais. (Lembre-se de que dois vetores são ortogonais se e somente se o produto escalar entre eles é zero.) Explique sua resposta esboçando um gráfico.\\
+    \iniSol
+    \begin{align*}
+      \vet{b} \cdot \vet{c} = 0 &\Rightarrow (\ux + s\uy) \cdot (\ux - s\uy) = 0 \Rightarrow 1 - s^2 = 0 \Rightarrow s^2 = 1 \Rightarrow s = \pm 1\\
+      &\Rightarrow 
+      \begin{cases}
+        \vet{b} = \ux \pm \uy\\
+        \vet{c} = \ux \mp \uy
+      \end{cases}
+    \end{align*}
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}[scale=2]
+        \node (A) at (0,0) {};
+        \draw[-latex] (A) ++ (-0.25,0) -- ++(1.75, 0) node[above] {$x$}; 
+        \draw[-latex] (A) ++ (0,-1.5) -- ++(0, 3) node[above] {$y$};
+        \draw[-latex, thick] (A) -- ++(1,1) node[right] {$\vet{b}$};
+        \draw[-latex, thick] (A) -- ++(1,-1) node[right] {$\vet{c}$};
+        \draw[fill=gray!25!white, rotate=-45] (A) rectangle ++(0.25, 0.25);
+        \filldraw (A) ++(`r 0.25*sqrt(2)/2`, 0) circle (1pt);
+        \draw[dashed] (A) ++(0, -1) node[left] {$-1$} -- ++(1, 0) -- ++(0, 1) node[below, fill=white, yshift=-2pt] {$1$} -- ++(0,1) -- ++(-1, 0) node [left] {$1$};
+        \draw (A) ++(0, 2) node[right] {Caso I};
+        %%
+        \node (B) at (3,0) {};
+        \draw[-latex] (B) ++ (-0.25,0) -- ++(1.75, 0) node[above] {$x$}; 
+        \draw[-latex] (B) ++ (0,-1.5) -- ++(0, 3) node[above] {$y$};
+        \draw[-latex, thick] (B) -- ++(1,1) node[right] {$\vet{c}$};
+        \draw[-latex, thick] (B) -- ++(1,-1) node[right] {$\vet{b}$};
+        \draw[fill=gray!25!white, rotate=-45] (B) rectangle ++(0.25, 0.25);
+        \filldraw (B) ++(`r 0.25*sqrt(2)/2`, 0) circle (1pt);
+        \draw[dashed] (B) ++(0, -1) node[left] {$-1$} -- ++(1, 0) -- ++(0, 1) node[below, fill=white, yshift=-2pt] {$1$} -- ++(0,1) -- ++(-1, 0) node [left] {$1$};
+        \draw (B) ++(0, 2) node[right] {Caso II};
+      \end{tikzpicture}
+    \end{figure}
+  \fimSol
+  %%%%
+  \item Mostre que as duas defnições do produto escalar $\vet{r} \cdot \vet{s}$ como $r s \cos{\theta}$ (1.6) e $\sum r_i s_i$ (1.7) são iguais. Uma maneira de mostrar é escolher o eixo $x$ ao longo da direção $\vet{r}$. [Estritamente falando, voccê deve primeiro se assegurar de que a definição (1.7) é independente da escolha dos eixos. Se você gosta de dar atenção a essas sutilezas, veja o Problema 1.16.]\\
+  \iniSol
+    Sem perda de generalidade, consideremos o plano $xy$ definido como o plano formado pelos vetores $\vet{r}$ e $\vet{s}$, e tal que o eixo $x$ aponta na mesma direção do vetor $\vet{r}$, como mostrado na figura abaixo:
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}
+        \draw[-latex] (-0.5, 0) -- (5, 0) node[above] {$x$};
+        \draw[-latex] (0, -0.5) -- (0, 3.5) node[left] {$y$};
+        \draw[-latex, thick] (0,0) -- (4, 0) node[above] {$\vet{r}$} node[below] {r};
+        \draw[-latex, thick] (0,0) -- (60:3) node[above] {$\vet{s}$};
+        \draw[fill=gray, fill opacity=0.4] (0,0) -- (1, 0) arc (0:60:1) node[midway, right, color=black, opacity=1] {$\theta$} -- (0,0) -- cycle;
+        \draw[dashed] (`r 3*cos(pi/3)`, 0) node[below] {$s_x$} -- (`r 3*cos(pi/3)`, `r 3*sin(pi/3)`) -- (0, `r 3*sin(pi/3)`)  node[left] {$s_y$};
+      \end{tikzpicture}
+    \end{figure}
+    Então, aplicando a definição (1.7) para o produto escalar, temos:
+    \begin{align*}
+      \vet{r} \cdot \vet{s} = (r\ux + 0 \uy) \cdot (s_x \ux + s_y \uy) = r s_x = r s \cos{\theta}
+    \end{align*}
+    que corresponde à definição (1.6) do produto escalar. Portanto, as definições (1.6) e (1.7) para o produto escalar são equivalentes.
+  \fimSol
+  %%%%
+  \item 
+  \begin{enumerate}[label=(\alph*)]
+    \item Use a definição (1.7) para mostrar que o produto escalar é distributivo, isto é, $\vet{r} \cdot (\vet{u} + \vet{v}) = \vet{r} \cdot \vet{u} + \vet{r} \cdot \vet{v}$.
+    \iniSol
+      Sejam os vetores:
+      \begin{align*}
+        &\vet{r} = r_x \ux + r_y \uy + r_z \uz\\
+        &\vet{u} = u_x \ux + u_y \uy + u_z \uz\\
+        &\vet{v} = v_x \ux + v_y \uy + v_z \uz
+      \end{align*}
+      Então,
+      \begin{align*}
+        \vet{r} \cdot (\vet{u} + \vet{v}) &= (r_x \ux + r_y \uy + r_z \uz) \cdot \left[(u_x \ux + u_y \uy + u_z \uz) + (v_x \ux + v_y \uy + v_z \uz)\right]\\
+        &= (r_x \ux + r_y \uy + r_z \uz) \cdot \left[ (u_x + v_x)\ux + (u_y + v_y)\uy + (u_z+v_z)\uz \right]\\
+        &= r_x (u_x + v_x) + r_x (u_x + v_y) + r_z (u_z + v_z)\\
+        &= r_x u_x + r_x v_x + r_y u_y + r_y v_y + r_z u_z + r_z v_z \\
+        &= (r_x u_x + r_y u_y + r_z u_z) + (r_x v_x + r_y v_y + r_z v_z)\\
+        &= \vet{r} \cdot \vet{u} + \vet{r} \cdot \vet{v}
+      \end{align*}
+    \fimSol
+    \item Se $\vet{r}$ e $vet{s}$ são vetores que dependem do tempo, mostre que a regra do produto para derivação de produtos se aplica a $\vet{r} \cdot \vet{s}$, ou seja, que $$\dfrac{d}{dt} (\vet{r} \cdot \vet{s}) = \vet{r} \cdot \dfrac{d\vet{s}}{dt} + \dfrac{d\vet{r}}{dt} \cdot \vet{s}.$$
+    \iniSol
+      Sejam os vetores $\vet{r} = r_x \ux + r_y \uy + r_z \uz$ e $\vet{s} = s_x \ux + s_y \uy + s_z \uz$, então:
+      \begin{align*}
+        \dfrac{d}{dt} (\vet{r} \cdot \vet{s}) &= \dfrac{d}{dt} (r_x s_x + r_y s_y + r_z s_z) = \dfrac{d}{dt} (r_x s_x) + \dfrac{d}{dt} (r_y s_y )  + \dfrac{d}{dt} (r_z s_z ) \\
+        &= r_x \dfrac{ds_x}{dt} + \dfrac{dr_x}{dt} s_x + r_y \dfrac{ds_y}{dt} + \dfrac{dr_y}{dt} s_y + r_z \dfrac{ds_z}{dt} + \dfrac{dr_z}{dt} s_z\\
+        &= \left( r_x \dfrac{ds_x}{dt} + r_y \dfrac{ds_y}{dt} + r_z \dfrac{ds_z}{dt} \right) + \left( \dfrac{dr_x}{dt} s_x + \dfrac{dr_y}{dt} s_y + \dfrac{dr_z}{dt} s_z \right)\\
+        &= \vet{r} \cdot \dfrac{d\vet{s}}{dt} + \dfrac{d\vet{r}}{dt} \cdot \vet{s}
+      \end{align*}
+    \fimSol
+  \end{enumerate}
+  %%%%
+  \item Em trigonometria elementar, você provavelmente aprendeu a lei dos cossenos para um triângulo de lados $a$, $b$ e $c$, tal que $c^2 = a^2 + b^2 - 2ab \cos{\theta}$, onde $\theta$ é o ângulo entre os lados $a$ e $b$. Mostre que a lei dos cossenos é uma consequência imediata da identidade $(\vet{a} + \vet{b})^2 = a^2 + b^2 + 2 \vet{a} \cdot \vet{b}$.\\
+  \iniSol
+    Sejam os vetores $\vet{a}$ e $\vet{b}$, cujos comprimentos valem, respectivamente, $a = \sqrt{\vet{a} \cdot \vet{a}}$ e $b = \sqrt{\vet{b} \cdot \vet{b}}$. Temos:
+    \begin{align*}
+      (\vet{a}+\vet{b})^2 &= (\vet{a}+\vet{b}) \cdot (\vet{a}+\vet{b}) = \vet{a} \cdot \vet{a} + \vet{a} \cdot \vet{b} + \vet{b} \cdot \vet{a} + \vet{b} \cdot \vet{b}\\
+      &= \vet{a} \cdot \vet{a} + \vet{a} \cdot \vet{b} + \vet{a} \cdot \vet{b} + \vet{b} \cdot \vet{b}\\
+      &= \vet{a} \cdot \vet{a} + 2 \vet{a} \cdot \vet{v} + \vet{b} \cdot \vet{b}\\
+      &= \vet{a} \cdot \vet{a} + \vet{b} \cdot \vet{b} + 2 \vet{a} \cdot \vet{b}\\
+      &= a^2 + b^2 + 2 \vet{a} \cdot \vet{b}\\
+      &= a^2 + b^2 + 2 a b \cos{(180-\theta)}\\
+      &= a^2 + b^2 - 2 a b \cos{\theta}
+    \end{align*}
+```{r, include=FALSE}
+delta <- 20
+a <- c(6, 0)
+b <- c(3, 3)
+theta_c <- acos(sum(a*b) / (sqrt(sum(a^2)) * sqrt(sum(b^2)))) * (180/pi)
+theta <- 180 - theta_c
+c <- a + b
+beta <- acos(sum(a*c) / (sqrt(sum(a^2)) * sqrt(sum(c^2)))) * (180/pi)
+```
+onde $180^\circ - \theta$ é o ângulo entre os vetores $\vet{a}$ e $\vet{b}$, conforme mostrado na  figura abaixo:
+
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}[rotate=`r delta`]
+        \draw[-latex, thick] (0,0) -- (`r a`) node[midway, below] {$\vet{a}$};
+        \draw[-latex, thick] (`r a`) -- (`r c`) node[midway, left] {$\vet{b}$};
+        \draw[-latex, thick] (0,0) -- (`r c`) node[midway, above, rotate=`r beta + delta`] {$\vet{a} + \vet{b}$};
+        \draw[dashed] (0,0) -- (`r b`) -- (`r c`);
+        \draw[dashed] (`r a`) -- ++(3, 0);
+        \draw[latex-latex] (`r a`) ++ (1, 0) arc (0:`r theta_c`:1) node[midway, right, rotate=`r delta`] {$180^\circ - \theta$};
+        \draw[latex-latex] (`r a`) ++ (`r b/sqrt(sum(b^2))`) arc (`r theta_c`:180:1) node[midway, above] {$\theta$};
+      \end{tikzpicture}
+    \end{figure}
+  \fimSol
+  %%%%
+  \item Uma partícula se move em um círculo (centro $O$ e raio $R$) com velocidade angular constante $\omega$, no sentido contrário aos ponteiros de um relógio. O círculo está sobre o plano $xy$ e a partícula está sobre o eixo $x$ no instante $t = 0$. Mostre que a posição da partícula é dada por
+  $$
+  \vet{r}(t) = \ux R \cos{(\omega t)} + \uy R \sin{(\omega t)}  .
+  $$
+  Determine a velocidade e a aceleração da particulo. Quais são as magnitudes e a direção da aceleração? Relacione seu resultado com as propriedades bem conhecidas do movimento circular uniforme.\\
+  \iniSol
+```{python, include=FALSE}
+import math
+R = 3
+omega = math.pi/5
+t = 3/2
+x, y = R * math.cos(omega * t), R * math.sin(omega * t)
+vx, vy = -omega * R * math.sin(omega * t), omega * R * math.cos(omega * t)
+ax, ay = -omega**2 * x, -omega**2 * y
+theta_deg = math.degrees(omega * t) 
+```
+
+Num dado instante $t$ arbitrário, a posição da partícula na trajetória circular é a mostrada na figura abaixo:
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \draw[-latex] (`r -1.2*py$R`, 0) -- (`r 1.2*py$R`, 0) node[below] {$x$};
+    \draw[-latex] (0, `r -1.2*py$R`) -- (0, `r 1.2*py$R`) node[left] {$y$};
+    \draw[dashed] (0,0) circle (`r py$R`);
+    \draw[dashed] (`r py$x`, 0) node[below] {$x$} -- (`r py$x`, `r py$y`) -- (0, `r py$y`) node[left] {$y$};
+    \filldraw[fill=gray] (`r py$x`, `r py$y`) circle (5pt);
+    \draw[latex-latex] (`r py$R/3`, 0) arc (0:`r py$theta_deg`:`r py$R/3`) node[midway, right] {$\theta = \omega t$};
+    \draw[-latex, ultra thick, red] (0,0) -- (`r py$x`, `r py$y`) node[midway, left] {$\vet{r}$};
+    \draw[-latex, blue] (`r py$x`, `r py$y`) -- ++(`r py$vx`, `r py$vy`) node[midway, above] {$\vet{v}$};
+    \draw[-latex, thick, blue] (`r py$x`, `r py$y`) -- ++(`r py$ax`, `r py$ay`) node[midway, thick, right] {$\vet{a}$};
+  \end{tikzpicture}
+\end{figure}
+\noindent em que $x = R \cos{(\theta)}$ e $y = R \sin{(\theta)}$. Sabendo que um movimento com velocidade angular $\omega$ possui período $T = \dfrac{2\pi}{\omega}$, vale a seguinte relação:
+
+\begin{align*}
+  \dfrac{T}{2\pi} = \dfrac{\dfrac{2\pi}{\omega}}{2\pi} = \dfrac{t}{\theta} \Rightarrow \dfrac{1}{\omega} = \dfrac{t}{\theta} \Rightarrow \theta = \omega t
+\end{align*}
+
+Logo, a posição da partícula pode ser escrita como:
+
+$$
+\vet{r}(t) = \ux R \cos{(\omega t)} + \uy R \sin{(\omega t)}.
+$$
+
+A velocidade $\vet{v}(t)$ é 
+\begin{align*}
+\vet{v}(t) = \dfrac{d\vet{r}}{dt} &= \dfrac{d}{dt}\left[ \ux R \cos{(\omega t)} + \uy R \sin{(\omega t)}\right]\\
+  \vet{v}(t) &= - \ux \omega R \sin{(\omega t)} + \uy \omega R \cos{(\omega t)}
+\end{align*}
+
+e a aceleação $\vet{a}(t)$ é:
+
+\begin{align*}
+  \vet{a}(t) = \dfrac{d\vet{v}}{dt} &= \left[ - \ux \omega R \sin{(\omega t)} + \uy \omega R \cos{(\omega t)} \right]\\
+  \vet{a}(t) &= - \ux \omega^2 R\cos{(\omega t)} - \uy \omega^2 R \sin{(\omega t)}\\
+  \vet{a}(t) &= - \omega^2 \vet{r}(t)
+\end{align*}
+
+Como mostrado acima, a aceleração no movimento circular uniforme sempre aponta para o centro da trajetória. Por sua vez, podemos mostrar que o vetor velocidade $\vet{v}$ é sempre perpendicular ao vetor posição $\vet{r}$, em qualquer instante $t$. De fato, calculando o produto escalar entre esses vetores, obtemos:
+
+\begin{align*}
+\vet{r}(t) \cdot \vet{v}(t) &=  \left[ \ux R \cos{(\omega t)} + \uy R \sin{(\omega t)} \right] \cdot  \left[ - \ux \omega R \sin{(\omega t)} + \uy \omega R \cos{(\omega t)} \right]\\
+&= -\omega R^2 \cos{(\omega t)} \sin{(\omega t)} + \omega R^2 \cos{(\omega t)} \sin{(\omega t)} = 0
+\end{align*}
+  \fimSol
+  %%%%
+  \item A posição de uma partícula em mocimento é dada como função do tempo por $$\vet{r}(t) = \ux b \cos{(\omega t)} + \uy c \sin{(\omega t)},$$ onde $b$, $c$ e $\omega$ são constante. Descreva a órbita da partícula.\\
+  \iniSol
+    Sejam $x(t) = b \cos{(\omega t)}$ e $y(t) = c \sin{(\omega t)}$ as coordenadas da partícula no instante $t$. Observemos que, para todo ângulo $\phi$ vale a identidade trigonométrica:
+    \begin{align*}
+      \cos^2{(\phi}) + \sin^2{(\phi)} = 1.
+    \end{align*}
+    Então, fazendo $\phi = \omega t$, temos:
+    \begin{align*}
+      \cos^2{(\omega t}) + \sin^2{(\omega t)} = 1 &\Rightarrow \left(\dfrac{x}{b}\right)^2 + \left(\dfrac{y}{c}\right)^2 = 1\\
+      &\Rightarrow \dfrac{x^2}{b^2} + \dfrac{y^2}{c^2} = 1
+    \end{align*}
+    A equação acima descreve uma elipse no plano $xy$. O centro da elipse é a origem $O$ e os semi-eixos são respectivamente $b$ e $c$. A figura abaixo mostra a trajetória da partícula:
+```{python, include=FALSE}
+import math
+b = 4
+c = 2
+omega = math.pi/5
+t = 3/2
+x, y = b * math.cos(omega * t), c * math.sin(omega * t)
+vx, vy = -omega * b * math.sin(omega * t), omega * c * math.cos(omega * t)
+ax, ay = -omega**2 * x, -omega**2 * y
+theta = math.atan(y/x)
+theta_deg = math.degrees(theta) 
+```
+
+
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \draw[-latex] (`r -1.2*py$b`, 0) -- (`r 1.2*py$b`, 0) node[below] {$x$};
+    \draw[-latex] (0, `r -1.2*py$c`) -- (0, `r 1.2*py$c`) node[left] {$y$};
+    \draw[dashed] (0,0) ellipse (`r py$b` and `r py$c`);
+    \draw (`r py$b`, 2pt) -- ++(0, -4pt) node[below, fill=white] {$b$};
+    \draw (2pt, `r py$c`) -- ++(-4pt, 0) node[left, fill=white] {$c$};
+    \draw[dashed] (`r py$x`, 0) node[below] {$x$} -- (`r py$x`, `r py$y`) -- (0, `r py$y`) node[left] {$y$};
+    \filldraw[fill=gray] (`r py$x`, `r py$y`) circle (5pt);
+    \draw[latex-latex] (`r py$b/3`, 0) arc (0:`r py$theta_deg`:`r py$b/3`) node[midway, right] {$\theta$};
+    \draw[-latex, ultra thick, red] (0,0) -- (`r py$x`, `r py$y`) node[midway, left] {$\vet{r}$};
+    \draw[-latex, blue] (`r py$x`, `r py$y`) -- ++(`r py$vx`, `r py$vy`) node[midway, above] {$\vet{v}$};
+    \draw[-latex, thick, blue] (`r py$x`, `r py$y`) -- ++(`r py$ax`, `r py$ay`) node[midway, thick, right] {$\vet{a}$};
+  \end{tikzpicture}
+\end{figure}
+
+Observemos que:
+  \begin{align*}
+    r^2 = x^2 + y^2 &\Rightarrow r^2 = \left[b \cos{(\omega t)}\right]^2 + \left[c \sin{(\omega t)}\right]^2\\
+    &\Rightarrow r^2 = b^2 \cos^2{(\omega t)} + c^2 \sin^2{(\omega t)}\\
+    &\Rightarrow r^2 = b^2 \left[1 - \sin^2{(\omega t)}\right] + c^2 \sin^2{(\omega t)}\\
+    &\Rightarrow r^2 = b^2 - (b^2 - c^2)\sin^2{(\omega t)}\\
+    &\Rightarrow r^2 = \dfrac{b^2}{c^2} \left[1 - \left(1 - \dfrac{c^2}{b^2}\right) \sin^2{(\omega t)}\right]\\
+    &\Rightarrow r^2 = \dfrac{b^2}{c^2} \left[1 - e^2 \sin{(\omega t)}\right]
+  \end{align*}
+em que $e = \sqrt{1 - \dfrac{c^2}{b^2}}$ é a excentricidade da elipse.
+e
+  \begin{align*}
+    \theta &= \arctan{\left(\dfrac{y}{x}\right)} = \arctan{\left[\dfrac{c \sin{(\omega t)}}{b \cos{(\omega t)}}\right]}\\
+    \theta &= \arctan{\left[\dfrac{c}{b} \tan{(\omega t)}\right]}
+  \end{align*}
+  \fimSol
+  %%%%
+  \item A posição de uma partícula em movimento é dada como função do tempo por $$\vet{r}(t) = \ux b \cos{(\omega t)} + \uy c \sin{(\omega t)} + \uz v_0 t,$$ onde $b$, $c$, $v_0$ e $\omega$ são constantes. Descreva a órbita da partícula.\\
+  \iniSol
+    A partícula descreve uma \textit{hélice elíptica} que pode ser expressa de forma paramétrica como:
+    \begin{align*}
+      \begin{cases}
+        x(t) = b \cos{(\omega t)}\\
+        y(t) = c \sin{(\omega t)}\\
+        z(t) = v_0 t
+      \end{cases}
+    \end{align*}
+    A trajetória é mostrada na figura seguinte:
+```{python, include=FALSE}
+import math
+import numpy as np
+b, c, omega, v0 = 8, 3, math.pi/4, 0.4
+n = 151
+T = 2*math.pi/omega
+t = np.linspace(0, 2.5*T, n)
+x, y, z = b* np.cos(omega * t), c* np.sin(omega * t), v0*t
+vx, vy, vz = -omega * b * np.sin(omega * t), omega * c * np.cos(omega * t), v0
+ax, ay, az = -omega**2 * x, -omega**2 * y, 0
+
+zmax = max(z)
+
+helice = "\\draw[green!50!black, thick]"
+helice += " -- ".join([f"({x[i]:.3f}, {y[i]:.3f}, {z[i]:.3f})" for i in range(n)])
+helice += ";"
+
+elipse = "\\draw[dashed, fill=gray, fill opacity=0.1]"
+elipse += " -- ".join([f"({x[i]:.3f}, {y[i]:.3f}, 0)" for i in np.where(t <= T)[0]])
+elipse += ";"
+
+
+tp = 2.15*T
+xp, yp, zp = b* math.cos(omega * tp), c* math.sin(omega * tp), v0*tp
+vxp, vyp, vzp = -omega * b* math.cos(omega * tp), omega * c * math.cos(omega * tp), v0
+axp, ayp, azp = -omega**2 * xp, -omega**2 * yp, 0
+```
+    \begin{figure}[H]
+      \centering
+      \tdplotsetmaincoords{75}{105}
+      \begin{tikzpicture}[tdplot_main_coords]
+        `r py$elipse`
+        \draw (`r py$b`, 0.2, 0) -- (`r py$b`, -0.2, 0)  node[left, xshift=-5pt, yshift=-5pt] {$+b$};
+        \draw (`r -py$b`, 0.2, 0) -- (`r -py$b`, -0.2, 0)  node[left, xshift=5pt, yshift=5pt] {$-b$};
+        \draw (0.3, `r py$c`,  0) -- (-0.3, `r py$c`,  0)  node[below, xshift=5pt, yshift=-2pt] {$+c$};
+        \draw (0.3, `r -py$c`, 0) -- (-0.3, `r -py$c`, 0)  node[below, xshift=-20pt, yshift=2pt] {$-c$};
+        \draw[-latex] (`r -1.5*py$b`, 0, 0) -- (`r 1.5*py$b`, 0, 0) node[left] {$x$};
+        \draw[-latex] (0, `r -1.5*py$c`, 0) -- (0, `r 1.5*py$c`, 0) node[above] {$y$};
+        \draw[-latex] (0, 0, 0) -- (0, 0, `r 1.1*py$zmax`) node[left] {$z$};
+        `r py$helice`
+        \draw[dashed] (`r round(py$xp,2)`, `r round(py$yp, 2)`, `r round(py$zp, 2)`) -- (0, 0, `r round(py$zp, 2)`) node[left, yshift=5pt] {$z$};
+        \draw[dashed] (`r round(py$xp,2)`, `r round(py$yp, 2)`, `r round(py$zp, 2)`) -- (`r round(py$xp,2)`, `r round(py$yp, 2)`, 0) -- (`r round(py$xp,2)`, 0, 0) node[left] {$x$};
+        \draw[dashed] (`r round(py$xp,2)`, `r round(py$yp, 2)`, 0)  -- (0, `r round(py$yp, 2)`, 0) node[above, xshift=-5pt] {$y$};
+        \draw[dashed] (0,0,0) -- (`r round(py$xp,2)`, `r round(py$yp, 2)`, 0);
+        %%
+        \draw[-latex, thick, red] (0,0,0) -- (`r round(py$xp,2)`, `r round(py$yp, 2)`, `r round(py$zp, 2)`) node[right, midway] {$\vet{r}$};
+        \draw[-latex, thick, blue] (`r round(py$xp,2)`, `r round(py$yp, 2)`, `r round(py$zp, 2)`) --++(`r round(py$vxp,2)`, `r round(py$vyp, 2)`, `r round(py$vzp, 2)`) node[below, midway] {$\vet{v}$};
+        \draw[-latex, thick, blue] (`r round(py$xp,2)`, `r round(py$yp, 2)`, `r round(py$zp, 2)`) --++(`r round(py$axp,2)`, `r round(py$ayp, 2)`, `r round(py$azp, 2)`) node[above, midway] {$\vet{a}$};
+      \end{tikzpicture}
+    \end{figure}
+    Observemos que:
+    \begin{align*}
+      \vet{v}(t) &= \dfrac{d\vet{r}}{dt} = -\ux \omega b \sin{(\omega t)} + \uy \omega c \cos{(\omega t)} + \uz v_0\\
+      \vet{a}(t) &= \dfrac{d\vet{v}}{dt} = - \ux \omega^2 b \cos{(\omega t)} - \uy \omega^2 c \sin{(\omega t)}\\
+    \end{align*}
+  \fimSol
+  %%%%
+  \item Seja $\vet{u}$ um vetor unitário fixo arbitrário e mostre que qualquer vetor $\vet{b}$ satisfaz 
+  $$
+  b^2 = (\vet{u}\cdot \vet{b})^2 + (\vet{u} \times \vet{b})^2.
+  $$
+  Explique esse resultado em palavras, com o auxílio de uma figura.\\
+  \iniSol
+    Sejam $\theta$ o ângulo entre os vetores $\vet{u}$ e $\vet{b}$, então:
+    \begin{align*}
+      \begin{cases}
+        |\vet{u} \cdot \vet{b}| &= u b \cos{\theta} = b\cos{\theta}\\
+        |\vet{u} \times \vet{b}| &= u b \sin{\theta} = b \sin{\theta}
+      \end{cases}
+      \Rightarrow (\vet{u}\cdot \vet{b})^2 + (\vet{u} \times \vet{b})^2
+      \Rightarrow (|\vet{u}\cdot \vet{b}|)^2 + (|\vet{u} \times \vet{b}|)^2 &= (b\cos{\theta})^2 + (b\cos{\theta})^2 \\
+      &= b^2 \cos^2{\theta} + b^2 \sin^2 {\theta}\\
+      &= b^2 (\cos^2{\theta} +  \sin^2 {\theta})\\
+      &= b^2
+    \end{align*}
+  \fimSol
+  %%%%
+  \item Mostre que para quaisquer dois vetores $\vet{a}$ e $\vet{b}$
+  $$
+  |\vet{a}+\vet{b}| \leq (a+b).
+  $$
+  [\textit{Sugestão}: expanda $|\vet{a}+\vet{b}|^2$ e compare o resultado com $(a+b)^2$]. Explique por que isso é chamado de desigualdade triangular.\\
+  \iniSol
+    Seja $\theta$ o ângulo entre os vetores $\vet{a}$ e $\vet{b}$. Façamos:
+    \begin{align*}
+      |\vet{a}+\vet{b}|^2 &= (\vet{a} + \vet{b}) \cdot (\vet{a} + \vet{b}) = \vet{a}\cdot{\vet{a}} + \vet{a}\cdot\vet{b} + \vet{b} \cdot \vet{a} + \vet{b} \cdot \vet{b}\\
+      &= \vet{a}\cdot{\vet{a}} + 2\vet{a}\cdot\vet{b} + \vet{b} \cdot \vet{b}\\
+      &= \vet{a}\cdot{\vet{a}} + \vet{b} \cdot \vet{b} + 2\vet{a}\cdot\vet{b}\\
+      &= a^2 + b^2 + 2ab \cos{\theta}
+    \end{align*}
+    Dado que $-1 \leq \cos{\theta} \leq 1$ para qualquer ângulo $\theta$, então
+    \begin{align*}
+      a^2 + b^2 - 2ab \leq |\vet{a}+\vet{b}|^2 \leq a^2 + b^2 + 2ab &\Rightarrow (a-b)^2 \leq |\vet{a}+\vet{b}|^2 \leq (a+b)^2\\
+      &\Rightarrow |a-b| \leq  |\vet{a}+\vet{b}| \leq |a+b|
+    \end{align*}
+    Em particular, demonstramos que $|\vet{a}+\vet{b}| \leq (a+b)$.\\
+    A fim de verificar o motivo pelo qual essa desigualdade é chamada \textit{desigualdade triangular}, consideremos o triângulo formado pelos vetores $\vet{a}$, $\vet{b}$ e $\vet{a}+\vet{b}$:
+```{r, include=FALSE}
+a <- c(5, 0)
+b <- c(2, 3)
+c <- a+b
+delta <- 20
+theta <- atan(b[2]/b[1]) * (180/pi)
+```
+    \begin{figure}[H]
+      \centering
+      \begin{tikzpicture}[rotate=`r delta`, scale=0.8]
+        \draw[dashed] (`r a`) -- (`r 2*a`);
+        \draw[dashed] (`r a + c(b[1],0)`) -- ++(0, `r b[2]`);
+        \draw[-latex] (0, 0) -- (`r a`) node[below, midway] {$\vet{a}$};
+        \draw[-latex] (`r a`) -- ++(`r b`) node[left, midway] {$\vet{b}$};
+        \draw[-latex] (0, 0) -- (`r c`) node[above, midway, rotate=`r delta + (180/pi)*atan(c[2]/c[1])`] {$\vet{a}+\vet{b}$};
+        \draw[latex-latex] (`r a`) ++ (1,0) arc (0:`r theta`:1) node[midway, right, rotate=`r delta`] {$\theta$};
+      \end{tikzpicture}
+    \end{figure}
+    De acordo com a figura acima, temos:
+    $$
+    |\vet{a} + \vet{b}| = |\vet{a}| + |\vet{b}|\cos{\theta} = a + b\cos{\theta} \leq a+ b
+    $$
+  \fimSol
+  %%%%
+  \item Mostre que a definição (1.9) do produto vetorial é equivalente à definição elementar em que $\vet{r} \times \vet{s}$ é perpendicular a ambos, com magnitude $r s \sin{\theta}$ e a direção dada pela regra da mão direita. [\textit{Sugestão}: é fato que (embora bastante difícil de provar) a definição (1.9) é independente da nossa escolha de eixos. Portanto, você pode escolher eixos de forma que $\vet{r}$ aponte ao longo do eixo $x$ e $\vet{s}$ esteja sobre o plano $xy$.]\\
+  \iniSol
+    Sem perda de generalidade, tomemos os vetores $\vet{r} = r \ux$ e $\vet{s} = \ux s \cos{\theta} + \uy r \sin{\theta}$, em que $\theta$ é o ângulo entre $\vet{r}$ e $\vet{s}$. Então, aplicando a definição (1.9), temos:
+    \begin{align*}
+      \vet{r} \times \vet{s} &= 
+      \begin{vmatrix}
+        \ux & \uy & \uz\\
+        r & 0 & 0\\
+        s\cos{\theta} & s \sin{\theta} & 0
+      \end{vmatrix}
+      = \ux \begin{vmatrix}
+        0 & 0\\
+        s\sin{\theta} & 0
+      \end{vmatrix}
+      - \uy \begin{vmatrix}
+        r & 0\\
+        s \cos{\theta} & 0
+      \end{vmatrix}
+      + \uz \begin{vmatrix}
+        r & 0\\
+        s \cos{\theta} & s \sin{\theta}
+      \end{vmatrix}
+      \\
+      &= \ux (0 \cdot 0 - 0 \cdot s \sin{\theta}) - \uy (r \cdot 0 - 0 \cdot s \cos{\theta}) + \uz (r \cdot s \sin{\theta} - 0 \cdot s \cos{\theta})\\
+      &= \uz r s \sin{\theta}
+    \end{align*}
+    A figura a seguir ilustra o resultado acima:
+```{r, include=FALSE}
+r <- c(3, 0, 0)
+s <- c(1, 2, 0)
+theta <- atan(s[2]/s[1])
+theta_deg <- theta * (180/pi)
+rs <- sqrt(sum(r^2)) * sqrt(sum(s^2)) * sin(theta)
+```
+
+    \begin{figure}[H]
+      \centering
+      \tdplotsetmaincoords{60}{125}
+      \begin{tikzpicture}[tdplot_main_coords]
+        \draw[-latex] (0,0,0) -- (5, 0, 0) node[left] {$x$};
+        \draw[-latex] (0,0,0) -- (0, 5, 0) node[above] {$y$};
+        \draw[-latex] (0,0,0) -- (0, 0, 7) node[left] {$z$};
+        \draw[-latex, thick, blue] (0,0,0) -- (`r r`) node[left, midway] {$\vet{r}$};
+        \draw[-latex, thick, blue] (0,0,0) -- (`r s`) node[right, midway] {$\vet{s}$};
+        \draw[latex-latex] (1, 0) arc (0:`r theta_deg`:1) node [midway, below] {$\theta$};
+        \draw[-latex, thick, blue] (0,0,0) -- (0, 0, `r rs`) node[midway, right] {$\vet{r} \times \vet{s}$};
+      \end{tikzpicture}
+    \end{figure}
+```{r, include=FALSE}
+set.seed(123)
+x <- -5:5
+r <- sample(x=x, size=3, replace=TRUE) 
+r <- r * (4/sqrt(sum(r^2)))
+s <- sample(x=x, size=3, replace=TRUE) 
+s <- s * (4/sqrt(sum(s^2)))
+
+rs <- c(
+  r[2]*s[3] - r[3]*s[2],
+  r[3]*s[1] - r[1]*s[3],
+  r[1]*s[2] - r[2]*s[1]
+)
+
+n <- 21
+p <- seq(from=0, to=1, length=n)
+a <- r 
+a <- a/sqrt(sum(a^2)) * (3/2)
+arc <- sprintf("\\draw[latex-latex] (%.4f, %.4f, %.4f)", a[1], a[2], a[3])
+for (i in 2:n) {
+  a <- (1-p[i])*r+ p[i]*s
+  a <- a/sqrt(sum(a^2)) * (3/2) 
+  arc <- sprintf("%s -- (%.4f, %.4f, %.4f)", arc, a[1], a[2], a[3])
+}
+a <- r+s
+a <- a/sqrt(sum(a^2)) *(3/2)
+arc <- sprintf("%s;\\node[above] at (%.4f, %.4f, %.4f) {$\\theta$};", arc, a[1], a[2], a[3])
+
+p1 <- r+s
+p1 <- 0.7 * p1 / sqrt(sum(p1^2))
+p2 <- rs
+p2 <- 0.7 * p2 / sqrt(sum(p2^2))
+p3 <- p1 + p2
+```
+
+A próxima figura ilustra o caso geral com dois vetores arbitrários $\vet{r}$ e $vet{s}$:
+
+\begin{figure}[H]
+  \centering
+  \tdplotsetmaincoords{60}{125}
+  \begin{tikzpicture}[tdplot_main_coords]
+    \filldraw[gray, fill opacity=0.1] (`r -0.2*(r+s)`) -- ++(`r 1.4*r`) --  ++(`r 1.4*s`) -- ++(`r -1.4*r`) -- ++(`r -1.4*s`) -- cycle;
+    \draw[-latex, thick, blue] (0,0,0) -- (`r r `) node[above]{$\vet{r}$};
+    \draw[-latex, thick, green!50!black] (0,0,0) -- (`r s `) node[above]{$\vet{s}$};
+    \draw[-latex, thick, red] (0,0,0) -- (`r rs `) node[below]{$\vet{r} \times \vet{s}$};
+    \filldraw[gray, fill opacity=0.5] (0,0,0) -- (`r p1`) -- (`r p3`) -- (`r p2`);
+    \filldraw[gray!80!black] (`r p3 * 0.5`) circle (2pt);
+    `r arc`
+  \end{tikzpicture}
+\end{figure}
+
+  \fimSol
+  %%%%
+  \item 
+  \begin{enumerate}[label=(\alph*)]
+    \item Definindo o produto escalar $\vet{r} \cdot \vet{s}$ pela Equação (1.7), $\vet{r} \cdot \vet{s} = \sum r_i s_i$, mostre que o teorema de Pitágoras implica que a magnitude de qualquer vetor $\vet{r}$ é $r = \sqrt{\vet{r} \cdot \vet{r}}$.\\
+    \iniSol
+      Consideremos o vetor $\vet{r}$ da figura seguinte:
+      \begin{figure}[H]
+        \centering
+        \tdplotsetmaincoords{60}{125}
+        \begin{tikzpicture}[tdplot_main_coords]
+          \draw[-latex] (0,0,0) -- (5, 0, 0) node[left] {$x$};
+          \draw[-latex] (0,0,0) -- (0, 5, 0) node[above] {$y$};
+          \draw[-latex] (0,0,0) -- (0, 0, 5) node[left] {$z$};
+          \filldraw (0,0,0) circle (1.5pt) node[left] {$O$};
+          \filldraw (2,0,0) circle (1.5pt) node[below] {$A$};
+          \filldraw (2,3,4) circle (1.5pt) node[above] {$P$};
+          \filldraw (2,3,0) circle (1.5pt) node[below] {$P^\prime$};
+          \draw[dashed] (2, 0,0) node[left] {$r_x$} -- (2,3,0) -- (0, 3, 0) node[above] {$r_y$};
+          \draw[dashed] (0,0,0) -- (2, 3, 0) -- (2, 3, 4) -- (0, 0, 4) node[left] {$r_z$};
+          \draw[-latex, thick, red] (0,0,0) -- (2, 3, 4) node[midway, above] {$\vet{r}$};
+        \end{tikzpicture}
+      \end{figure}
+      Aplicando o teorema de Pitágoras aos triângulos $OAP^\prime$ e $OP^\prime P$, retos em $A$ e $P^\prime$, respectivamente, temos:
+      \begin{align*}
+        \begin{cases}
+          \overline{OP^\prime}^2 = \overline{OA}^2 + \overline{AP^\prime}^2\\
+          \overline{OP}^2 = \overline{OP^\prime}^2 + \overline{P^\prime P}^2
+        \end{cases}
+        &\Rightarrow
+        \begin{cases}
+          \overline{OP^\prime}^2 = r_x^2 + r_y^2\\
+          \overline{OP}^2 = \overline{OP^\prime}^2 + r_z^2
+        \end{cases}
+        \\
+        &\Rightarrow r^2 = \overline{OP}^2 r_x^2 + r_y^2 + r_z^2 \\
+        & \Rightarrow r^2 = (\ux r_x + \uy r_y + \uz r_z) \cdot (\ux r_x + \uy r_y + \uz r_z)\\
+        & \Rightarrow r^2 = \vet{r} \cdot \vet{r}\\
+        & \Rightarrow r^2 = \sqrt{\vet{r} \cdot \vet{r}}
+      \end{align*}
+    \fimSol
+    %%
+    \item Está claro que o comprimento de um vetor não depende da escolha dos eixos coordenados. Logo, o resultado do item (a) garante que o produto escalar $\vet{r} \cdot \vet{r}$, como definido em (1.7), é o mesmo para quaçquer escolha de eixos ortogonais. Use isso para mostrar que $\vet{r} \cdot \vet{s}$, como definido em (1.7), é o mesmo para qualquer escolha de eixos ortogonais. [\textit{Sugestão}: cnsidere o comprimento do vetor $\vet{r} + \vet{s}$.]
+  \end{enumerate}
+  %%%%
+  \item 
+  \begin{enumerate}
+    \item Mostre que o produto vetorial $\vet{r} \times \vet{s}$, como definido em (1.9), é distributivo, isto é, que $\vet{r} \times (\vet{u} + \vet{v}) = (\vet{r} \times \vet{u}) + (\vet{r} + \vet{v})$.
+    \item Mostre  a regra do produto
+    $$
+    \vet{r}
+    $$
+  \end{enumerate}
+\end{enumerate}

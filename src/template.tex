@@ -13,6 +13,8 @@
 \usepackage{float}
 
 \usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usetikzlibrary{3d}
 %\usetikzlibrary{patterns,snakes}
 
 
@@ -98,11 +100,14 @@ $else$
 $endif$
 
 
-
-
-
 % Bold Vector
-\newcommand{\vet}[1]{\mathbf{\hat{#1}}}
+%\newcommand{\vet}[1]{\mathbf{\hat{#1}}}
+\newcommand{\vet}[1]{\mathbf{#1}}
+
+% Vetores unitários
+\newcommand{\ux}{\vet{\hat{x}}}
+\newcommand{\uy}{\vet{\hat{y}}}
+\newcommand{\uz}{\vet{\hat{z}}}
 
 % Comando iniciar Solução
 \newcommand{\iniSol}{
