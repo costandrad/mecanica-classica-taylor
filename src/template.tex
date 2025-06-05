@@ -16,6 +16,7 @@
 \usepackage{tikz-3dplot}
 \usetikzlibrary{3d}
 %\usetikzlibrary{patterns,snakes}
+\usetikzlibrary{angles,quotes}
 
 
 
@@ -26,10 +27,6 @@
                                      {2.3ex \@plus.2ex}%
                                      {\normalfont\large\bfseries}}
 \makeatother
-
-
-% Definir leftmargin=* para todos os ambientes enumerate
-\setlist[enumerate,1]{leftmargin=*, resume, label=\textbf{\arabic*}}
 
 
 
@@ -98,6 +95,9 @@ $if(maincolor)$
 $else$
 \definecolor{mainColor}{HTML}{01796F}
 $endif$
+
+% Definir leftmargin=* para todos os ambientes enumerate
+\setlist[enumerate,1]{leftmargin=*, resume, label=\textbf{\chapternumber.\arabic*}}
 
 
 % Bold Vector

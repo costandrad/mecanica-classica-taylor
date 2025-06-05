@@ -699,7 +699,7 @@ p2 <- 0.7 * p2 / sqrt(sum(p2^2))
 p3 <- p1 + p2
 ```
 
-A próxima figura ilustra o caso geral com dois vetores arbitrários $\vet{r}$ e $vet{s}$:
+A próxima figura ilustra o caso geral com dois vetores arbitrários $\vet{r}$ e $\vet{s}$:
 
 \begin{figure}[H]
   \centering
@@ -757,15 +757,191 @@ A próxima figura ilustra o caso geral com dois vetores arbitrários $\vet{r}$ e
       \end{align*}
     \fimSol
     %%
-    \item Está claro que o comprimento de um vetor não depende da escolha dos eixos coordenados. Logo, o resultado do item (a) garante que o produto escalar $\vet{r} \cdot \vet{r}$, como definido em (1.7), é o mesmo para quaçquer escolha de eixos ortogonais. Use isso para mostrar que $\vet{r} \cdot \vet{s}$, como definido em (1.7), é o mesmo para qualquer escolha de eixos ortogonais. [\textit{Sugestão}: cnsidere o comprimento do vetor $\vet{r} + \vet{s}$.]
+    \item Está claro que o comprimento de um vetor não depende da escolha dos eixos coordenados. Logo, o resultado do item (a) garante que o produto escalar $\vet{r} \cdot \vet{r}$, como definido em (1.7), é o mesmo para quaçquer escolha de eixos ortogonais. Use isso para mostrar que $\vet{r} \cdot \vet{s}$, como definido em (1.7), é o mesmo para qualquer escolha de eixos ortogonais. [\textit{Sugestão}: considere o comprimento do vetor $\vet{r} + \vet{s}$.]
   \end{enumerate}
   %%%%
   \item 
   \begin{enumerate}
-    \item Mostre que o produto vetorial $\vet{r} \times \vet{s}$, como definido em (1.9), é distributivo, isto é, que $\vet{r} \times (\vet{u} + \vet{v}) = (\vet{r} \times \vet{u}) + (\vet{r} + \vet{v})$.
+    \item Mostre que o produto vetorial $\vet{r} \times \vet{s}$, como definido em (1.9), é distributivo, isto é, que $\vet{r} \times (\vet{u} + \vet{v}) = (\vet{r} \times \vet{u}) + (\vet{r} + \vet{v})$.\\
+    \iniSol
+      Consideremos os vetores, em coordenadas cartesianas:
+      \begin{align*}
+        \vet{r} &= r_x \ux + r_y \uy + r_z \uz \\
+        \vet{u} &= u_x \ux + u_y \uy + u_z \uz \\
+        \vet{v} &= v_x \ux + v_y \uy + v_z \uz \\
+      \end{align*}
+      Então, 
+      \begin{small}
+      \begin{align*}
+        \vet{r} \times (\vet{u} + \vet{v}) &=
+          \begin{vmatrix}
+            \ux & \uy & \uz\\
+            r_x & r_y & r_z\\
+            u_x+v_x & u_y+v_y & u_z+v_z
+          \end{vmatrix}\\
+          &=  \ux 
+              \begin{vmatrix}
+                r_y & r_z\\
+                u_y+v_y & u_z+v_z
+              \end{vmatrix} -
+              \uy
+              \begin{vmatrix}
+                r_x & r_z\\
+                u_x+v_x & u_z+v_z
+              \end{vmatrix} +
+              \uz
+              \begin{vmatrix}
+                r_x & r_y\\
+                u_x+v_x & u_y+v_y
+              \end{vmatrix}\\
+          &= \ux \left[r_y \left(u_z+v_z\right) - r_z \left(u_y+v_y\right)\right] - \uy \left[r_x \left(u_z+v_z\right) - r_z \left(u_x+v_x\right)\right]  + \uz \left[r_x \left(u_y+v_y\right) - r_y \left(u_x+v_x\right)\right] \\
+          &= \left[\ux \left(r_y u_z - r_z u_y\right) - \uy \left(r_x u_z - r_z u_x\right) + \uz \left(r_x u_y - r_y u_x\right)\right] + \\
+          &\qquad + \left[\ux \left(r_y v_z - r_z v_y\right) - \uy \left(r_x v_z - r_z v_x\right) + \uz \left(r_x v_y - r_y v_x\right)\right]\\
+          &=  \left(\ux 
+                \begin{vmatrix}
+                  r_y & r_z\\
+                  u_y & u_z
+                \end{vmatrix} 
+                - \uy
+                \begin{vmatrix}
+                  r_x & r_z\\
+                  u_x & u_z
+                \end{vmatrix} 
+                + \uz
+                \begin{vmatrix}
+                  r_x & r_y\\
+                  u_x & u_y
+                \end{vmatrix} 
+                \right) +
+                \left(\ux 
+                \begin{vmatrix}
+                  r_y & r_z\\
+                  v_y & v_z
+                \end{vmatrix} 
+                - \uy
+                \begin{vmatrix}
+                  r_x & r_z\\
+                  v_x & v_z
+                \end{vmatrix} 
+                + \uz
+                \begin{vmatrix}
+                  r_x & r_y\\
+                  v_x & v_y
+                \end{vmatrix} 
+                \right)\\
+          &= \begin{vmatrix}
+            \ux & \uy & \uz\\
+            r_x & r_y & r_z\\
+            u_x & u_y & u_z
+          \end{vmatrix} + 
+          \begin{vmatrix}
+            \ux & \uy & \uz\\
+            r_x & r_y & r_z\\
+            v_x & v_y & v_z
+          \end{vmatrix}\\
+        & = \vet{r} \times \vet{u} + \vet{r} \times \vet{v} 
+      \end{align*}
+      \end{small}
+    \fimSol
     \item Mostre  a regra do produto
     $$
-    \vet{r}
+    \dfrac{d}{dt} \left(\vet{r} \times \vet{s}\right) = \vet{r} \times \dfrac{d\vet{s}}{dt} + \dfrac{d\vet{r}}{dt} \times \vet{s}
     $$
+    Tenha cuidado com a ordem dos fatores.\\
+    \iniSol
+      Sejam os vetores $\vet{r} = r_x \ux + r_y \uy + r_z \uz$ e $\vet{s} = s_x \ux + s_y \uy + s_z \uz$, em coordenadas cartesianas. O produto vetorial $\vet{r} \times \vet{s}$ é 
+      \begin{small}
+      \begin{align*}
+        \vet{r} \times \vet{s} &= \begin{vmatrix}
+          \ux & \uy & \uz\\
+          r_x & r_y & r_z\\
+          s_x & s_y & s_z
+        \end{vmatrix}
+         = \ux \begin{vmatrix}
+          r_y & r_z\\
+          s_y & s_z
+         \end{vmatrix} -
+         \uy \begin{vmatrix}
+          r_x & r_z\\
+          s_x & s_z
+         \end{vmatrix} + 
+         \uz \begin{vmatrix}
+          r_x & r_y\\
+          s_x & s_y
+         \end{vmatrix}\\
+        &= \ux \left(r_y s_z - r_z s_y\right) - \uy \left(r_x s_z - r_z s_x\right) + \uz \left(r_x s_y - r_y s_x\right)
+      \end{align*}
+      Derivando o resultado acima com respeito ao tempo $t$, obtemos:
+      \begin{align*}
+        \dfrac{d}{dt} \left(\vet{r} \times \vet{s}\right) &= \dfrac{d}{dt} \left[ \ux \left(r_y s_z - r_z s_y\right) - \uy \left( r_x s_z - r_z s_x\right) + \uz \left(r_x s_y - r_y s_x \right) \right]\\
+        &= \ux \dfrac{d}{dt} \left( r_y s_z - r_z s_y \right)  - \uy \dfrac{d}{dt} \left(r_x s_z - r_z s_x\right) + \uz \dfrac{d}{dt}\left(r_x s_y - r_y s_x \right)\\
+        &= \ux  \left[ \dfrac{d}{dt} (r_y s_z) - \dfrac{d}{dt} (r_z s_y) \right]  - \uy  \left[\dfrac{d}{dt}(r_x s_z) - \dfrac{d}{dt}(r_z s_x)\right] + \uz \left[\dfrac{d}{dt}(r_x s_y) - \dfrac{d}{dt}(r_y s_x) \right]\\
+        &= \ux \left[\left(\dfrac{d r_y}{dt} s_z + r_y \dfrac{d s_z}{dt}\right) - \left(\dfrac{d r_z}{dt} s_y + r_z \dfrac{d s_y}{dt}\right)\right] -\\
+        & \qquad -\uy \left[\left(\dfrac{d r_x}{dt} s_z + r_x \dfrac{d s_z}{ dt}\right) - \left(\dfrac{d r_z}{dt} s_x + r_z \dfrac{d s_x}{dt}\right)\right] + \\
+        & \qquad \qquad + \uz \left[\left(\dfrac{d r_x}{dt} s_y + r_x \dfrac{d s_y}{dt} \right) - \left(\dfrac{d r_y}{dt} s_x + r_y \dfrac{d s_x}{dt}\right)\right]\\
+        &= \left[\ux \left(r_y \dfrac{d s_z}{dt} - r_z \dfrac{d s_y}{dt}\right) - \uy \left(r_x \dfrac{d s_z}{dt} - r_z \dfrac{d s_x}{dt}\right) + \uz \left(r_x \dfrac{d s_y}{dt} - r_y \dfrac{d s_x}{dt}\right)\right] + \\
+        & \qquad + \left[\ux \left( \dfrac{d r_y}{dt} s_z - \dfrac{d r_z}{dt} s_y \right) - \uy \left( \dfrac{d r_x}{dt} s_z - \dfrac{d r_z}{dt} s_x \right) + \uz \left( \dfrac{d r_x}{dt} s_y - \dfrac{d r_y}{dt} s_x \right)\right]\\
+        &=
+          \begin{vmatrix}
+            \ux & \uy & \uz\\
+            r_x & r_y & r_z\\
+            \dfrac{d s_x}{dt} & \dfrac{d s_y}{dt} & \dfrac{d s_z}{dt}
+          \end{vmatrix} + 
+          \begin{vmatrix}
+            \ux & \uy & \uz\\
+            \dfrac{d r_x}{dt} & \dfrac{d r_y}{dt} & \dfrac{d r_z}{dt}\\
+            s_x & s_y & s_z\\
+          \end{vmatrix}
+        &= \vet{r} \times \dfrac{d\vet{s}}{dt} + \dfrac{d\vet{r}}{dt} \times \vet{s}
+      \end{align*}
+      \end{small}
+    \fimSol
+  \end{enumerate}
+  %%%% Fim do Problema 1.17
+  \item Os três vetores $\vet{a}$, $\vet{b}$ e $\vet{c}$ são os três lados de um triângulo $ABC$ com ângulos $\alpha$, $\beta$ e $\gamma$ como apresentado na Figura 1.15. 
+  \begin{figure}[H]
+    \centering
+    Figura 1.15: Triângulo para o Problema 1.18\\
+    \begin{tikzpicture}
+      \coordinate (A) at (0,0);
+      \coordinate (B) at (4, 3);
+      \coordinate (C) at (6, 0);
+      
+      \node[left] at (A) {$A$};
+      \node[above] at (B){$B$};
+      \node[right] at (C) {$C$};
+      
+      
+      \draw[thick, -latex] (A)  -- (B)  node[midway, above] {$\vet{c}$};
+      \draw[thick, -latex] (B) -- (C) node[midway, right] {$\vet{a}$};
+      \draw[thick, -latex] (C) -- (A) node[midway, below] {$\vet{b}$};
+      
+      \draw pic["$\alpha$", draw=black, angle eccentricity=1.2, angle radius=0.8cm] {angle = C--A--B};
+      \draw pic["$\beta$", draw=black, angle eccentricity=1.3, angle radius=0.8cm] {angle = A--B--C};
+      \draw pic["$\gamma$", draw=black, angle eccentricity=1.2, angle radius=0.8cm] {angle = B--C--A};
+    \end{tikzpicture}
+  \end{figure}
+  \begin{enumerate}[label=(\textbf{\alph*})]
+    \item Mostre que a área do triângulo é dada por qualquer uma das expressões:
+    $$
+      \text{área} = \dfrac{1}{2} |\vet{a} \times \vet{b}| = \dfrac{1}{2} |\vet{b} \times \vet{c}| = \dfrac{1}{2} |\vet{c} \times \vet{a}|
+    $$
+    \iniSol
+        Sem perda de generalidade, tomemos o lado $\vet{b}$, medindo $|\vet{b}|$ como base do triângulo $ABC$. Nesse caso, a altura relativa à base considerada é igual a $|\vet{a}| \sin \gamma$ ou ainda $|\vet{c}| \sin \alpha$. No primeiro caso, podemos calcular a área de $ABC$ como sendo:
+        \begin{small}
+        $$
+          \text{área} = \dfrac{1}{2} |\vet{b}| |\vet{a}| \sin{\gamma} = \dfrac{1}{2} |\vet{b}| |\vet{a}| \sin({\pi - \gamma}) = \dfrac{1}{2} |\vet{b}| |\vet{a}| \sin{(\alpha + \beta)} = \dfrac{1}{2} |\vet{a}| |\vet{b}| \sin{(\alpha + \beta)} = \dfrac{1}{2} |\vet{a} \times \vet{b}|
+        $$
+        \end{small}
+        em que $\alpha + \beta$ é o ângulo entre os vetores $\vet{a}$ e $\vet{b}$.
+  
+        Para o segundo caso, temos:
+        \begin{small}
+        $$
+        \text{área} = \dfrac{1}{2}|\vet{b}| |\vet{c}| \sin{\alpha} = \dfrac{1}{2}|\vet{b}| |\vet{c}| \sin{(\pi - \alpha)} = \dfrac{1}{2} |\vet{b}| |\vet{c}| \sin{(\beta + \gamma)} = \dfrac{1}{2} |\vet{b} \times \vet{c}|
+        $$
+        \end{small}
+        em que $\beta + \gamma$ é o ângulo entre $\vet{b}$ e $\vet{c}$.
+    \fimSol
   \end{enumerate}
 \end{enumerate}
