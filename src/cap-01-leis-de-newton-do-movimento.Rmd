@@ -942,6 +942,72 @@ A próxima figura ilustra o caso geral com dois vetores arbitrários $\vet{r}$ e
         $$
         \end{small}
         em que $\beta + \gamma$ é o ângulo entre $\vet{b}$ e $\vet{c}$.
+        Analogamente, tomando o lado $\vet{a}$ como base do triângulo $ABC$ e a altura relativa $|\vet{c}|\sin{\beta}$, encontramos:
+        \begin{small}
+        $$
+        \text{área} = \dfrac{1}{2} |\vet{a}| |\vet{c}| \sin{\beta} =   \dfrac{1}{2} |\vet{a}| |\vet{c}| \sin{(\pi - \beta)} =  \dfrac{1}{2} |\vet{a}| |\vet{c}| \sin{(\alpha + \gamma)} = \dfrac{1}{2} |\vet{a} \times \vet{c}| = \dfrac{1}{2} |\vet{c} \times \vet{a}|
+        $$
+        em que $\alpha + \gamma$ é o ângulo entre os vetores $\vet{a}$ e $\vet{c}$.
+        
+        Portanto, 
+        $$
+          \text{área} = \dfrac{1}{2} |\vet{a} \times \vet{b}| = \dfrac{1}{2} |\vet{b} \times \vet{c}| = \dfrac{1}{2} |\vet{c} \times \vet{a}|
+        $$
+        \end{small}
+    \fimSol
+    \item Use a igual dade dessas expressões para mostrar a chamada lei dos senos
+    $$
+    \dfrac{a}{\sin{\alpha}} = \dfrac{b}{\sin{\beta}} = \dfrac{c}{\sin{\gamma}}.
+    $$
+    \iniSol
+      No decorrer da demonstração do item anterior, mostramos que:
+      $$
+      \text{área} = \dfrac{1}{2} |\vet{a}| |\vet{b}| \sin{\gamma} = \dfrac{1}{2} |\vet{b}| |\vet{c}| \sin{\alpha} = \dfrac{1}{2}|\vet{c}||\vet{a}| \sin{\beta}
+      $$
+      Dessas relações, obtemos:
+      \begin{align*}
+        &\dfrac{1}{2} |\vet{b}| |\vet{c}| \sin{\alpha} = \dfrac{1}{2} |\vet{c}| |\vet{a}| \sin{\beta} \Rightarrow  |\vet{a}| \sin{\beta} = |\vet{b}| \sin{\alpha} \Rightarrow \dfrac{|\vet{a}|}{\sin{\alpha}} = \dfrac{|\vet{b}|}{\sin{\beta}}\\
+        &\dfrac{1}{2}|\vet{a}||\vet{b}| \sin{\gamma} = \dfrac{1}{2} |\vet{c}| |\vet{a}| \sin{\beta} \Rightarrow |\vet{b}| \sin{\gamma} = |\vet{c}| \sin{\beta} \Rightarrow \dfrac{|\vet{b}|}{\sin{\beta}} = \dfrac{|\vet{c}|}{\sin{\gamma}}
+      \end{align*}
+      Logo,
+      $$
+      \dfrac{\vet{a}}{\sin{\alpha}} = \dfrac{\vet{b}}{\sin{\beta}} = \dfrac{\vet{c}}{\sin{\gamma}}.
+      $$
     \fimSol
   \end{enumerate}
+  %%%% Fim do Problema 1.18
+  \item Se $\vet{r}$, $\vet{v}$ e $\vet{a}$ denotam posição, velocidade e aceleração de uma partícula, mostre que 
+  $$
+    \dfrac{d}{dt} \left[\vet{a} \cdot \left(\vet{v} \times \vet{r}\right)\right] = \dot{\vet{a}} \cdot \left(\vet{v} \times \vet{r}\right)
+  $$
+  \iniSol
+    \begin{align*}
+      \dfrac{d}{dt} \left[\vet{a} \cdot \left(\vet{v} \times \vet{r}\right)\right] &= \dfrac{d \vet{a}}{dt} \cdot \left(\vet{v} \times \vet{r}\right) + \vet{a} \cdot \dfrac{d}{dt}\left(\vet{v} \times \vet{r}\right)\\
+      &= \dfrac{d\vet{a}}{dt} \cdot \left(\vet{v} \times \vet{r}\right) + \vet{a} \cdot \left(\dfrac{d \vet{v}}{dt} \times \vet{r} + \vet{v} \times \dfrac{d\vet{r}}{dt}\right)\\
+      &= \dot{\vet{a}} \cdot \left(\vet{v} \times \vet{r}\right) + \vet{a} \cdot \left(\vet{a} \times \vet{r} + \vet{v} \times \vet{v}\right)
+    \end{align*}
+    Na última expressão acima, de imediato podemos observar que  $\vet{v} \times \vet{v} = \vet{0}$. Resta analisar o significado de $\vet{a} \cdot \left(\vet{a} \times \vet{r}\right)$. Pela definição do produto vetorial, temos que o vetor $\vet{a} \times \vet{r}$ é perpendicular tanto ao vetor $\vet{r}$ quanto ao vetor $\vet{a}$. Assim, ao efetuar o produto escalar entre $\vet{a}$ e $\vet{a} \times \vet{r}$ é identicamente nulo. Portanto, podemos concluir que
+    $$
+      \dfrac{d}{dt} \left[\vet{a} \cdot \left(\vet{v} \times \vet{r}\right)\right] = \dot{\vet{a}} \cdot \left(\vet{v} \times \vet{r}\right)
+    $$
+  \fimSol
+  %%%% Fim do Problema 1.19
+  \item Os três vetores $\vet{A}$, $\vet{B}$ e $\vet{C}$ apontam da origem $O$ para os três vértices de um triângulo. Use o resultado do Problema 1.18 para mostrar que a área do triângulo é dada por
+  $$
+  \text{área do triângulo} = \dfrac{1}{2} |(\vet{B} \times \vet{C}) + (\vet{C} \times \vet{A}) + (\vet{A} \times \vet{B})|
+  $$
+  \iniSol
+    Na situação dada, os lados do triângulo são representados pelos vetores: $\vet{a} = \vet{C} - \vet{B}$, $\vet{b} = \vet{A} - \vet{C}$ e $\vet{c} = \vet{B} - \vet{A}$. Assim, consideremos a expressão para a área do triângulo, encontrada no Problema 1.18:
+    $$
+      \text{área} = \dfrac{1}{2} |\vet{a} \times \vet{b}|
+    $$
+    Substituindo pelas expressões de $\vet{A}$, $\vet{B}$ e $\vet{C}$, temos:
+    \begin{align*}
+      \text{área} = \dfrac{1}{2} |\vet{a} \times \vet{b}| &= \dfrac{1}{2}|(\vet{C} - \vet{B}) \times (\vet{A} - \vet{C})|\\
+      &= \dfrac{1}{2} |\vet{C} \times (\vet{A} - \vet{C}) - \vet{B} \times (\vet{A} - \vet{C})|\\
+      &= \dfrac{1}{2}|\vet{C} \times \vet{A} - \vet{C} \times \vet{C} - \vet{B} \times \vet{A} + \vet{B} \times \vet{C}|
+      &= \dfrac{1}{2} |(\vet{B} \times \vet{C}) + (\vet{C} \times \vet{A}) + (\vet{A} \times \vet{B})|
+    \end{align*}
+    Na última passagem, fizemos $\vet{C} \times \vet{C} = \vet{0}$ e $\vet{B} \times \vet{A} = - \vet{A} \times \vet{B}$.
+  \fimSol
 \end{enumerate}
