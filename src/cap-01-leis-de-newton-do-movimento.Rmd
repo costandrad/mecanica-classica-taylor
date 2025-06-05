@@ -1010,4 +1010,127 @@ A próxima figura ilustra o caso geral com dois vetores arbitrários $\vet{r}$ e
     \end{align*}
     Na última passagem, fizemos $\vet{C} \times \vet{C} = \vet{0}$ e $\vet{B} \times \vet{A} = - \vet{A} \times \vet{B}$.
   \fimSol
+  %%%% Fim do Problema 1.20
+\end{enumerate}
+
+\begin{enumerate}[resume]
+  \item Um paralelepípedo (um sólido de seis faces com as faces opostas paralelas) tem um vértice na origem $O$ e as três arestas que partem de $O$ definidas pelos vetores $\vet{a}$, $\vet{b}$ e $\vet{c}$. Mostre que o volume do paralelepípedo é $|\vet{a} \cdot (\vet{b} \times \vet{c})|$.\\
+  \iniSol
+    Podemos decompor o vetor $\vet{c}$ em uma componente paralela ao vetor $\vet{b}$, dada por $c_{\parallel} = |\vet{c}| \cos{\theta}$ e outra perpendicular ao vetor $\vet{b}$, dada por $c_{\perp} = |\vet{c}| \sin{\theta}$,  $\theta$ é o ângulo entre $\vet{b}$ e $\vet{c}$.  Assim, podemos determinar a área da face determinada pelos vetores $\vet{b}$ e $\vet{c}$ (partindo da origem) é 
+    $$
+    \text{área da face} = |\vet{b}| |\vet{c}| \sin{\theta} = |\vet{b} \times \vet{c}|
+    $$
+    Para finalizar com o volume do paralelepípedo, necessitamos calcular a altura relativa do sólido em relação à face determinada pelos vetores $\vet{b}$ e $\vet{c}$. Para tanto observemos que o vetor $\vet{b} \times \vet{c}$ é perpendicular à referida face. Assim, a altura será dada pela componente de $\vet{a}$ paralela a $\vet{b} \times \vet{c}$, ou seja, $a_{\parallel} = |\vet{a}| \cos{\alpha}$, em que $\alpha$ é o ângulo entre $\vet{a}$ e $\vet{b} \times \vet{c}$.
+    
+    Logo, o volume do paralelepídedo pode ser calculado pelo produto:
+    
+    $$
+      \text{volume} = (\text{altura}) \cdot (\text{área da face}) = (|\vet{a}| \cos{\alpha} ) (|\vet{b} \times \vet{c}|) = |\vet{a}| |\vet{b} \times \vet{c}| \cos{\alpha} = \vet{a} \cdot (\vet{b} \times \vet{c}).
+    $$
+  \fimSol
+  %%%% Fim do Problema 1.21
+\end{enumerate}
+
+
+```{r, include=FALSE}
+A <- c(2, 3)
+B <- c(5, 2)
+alfa <- atan2(A[2], A[1]) * 180 / pi
+beta <- atan2(B[2], B[1]) * 180 / pi
+```
+
+
+\begin{enumerate}[resume]
+\item Os dois vetores $\vet{a}$ e $\vet{b}$  estão sobre o plano $xy$ e fazem ângulos $\alpha$ e $\beta$ com o eixo $x$.
+    \begin{enumerate}[label=(\text{\alph*})]
+      \item Calculando $\vet{a} \cdot \vet{b}$ de duas formas [a saber, usando (1.6) e (1.7)], mostre a identidade trigonométrica bem conhecida
+      $$
+        \cos{(\alpha - \beta)} = \cos{\alpha} \cos{\beta} + \sin{\alpha} \sin{\beta}
+      $$
+      \iniSol
+        \begin{figure}[H]
+          \centering
+          \begin{tikzpicture}
+            \coordinate (O) at (0, 0);
+            \coordinate (A) at (`r A`);
+            \coordinate (B) at (`r B`);
+            \draw[-latex] (-1, 0) -- (6, 0) node[below] {$x$};
+            \draw[-latex] (0, -1) -- (0, 4) node[left] {$y$};
+            \draw[dashed] (`r B[1]`, 0) node[below] {$b_x$} -- (`r B`) -- (0, `r B[2]`) node[left] {$b_y$};
+            \draw[blue, fill=blue!20] (1.5, 0) arc (0:`r beta`:1.5) node[midway, right] {$\beta$} -- (O) -- cycle;
+            \draw[dashed] (`r A[1]`, 0) node[below] {$a_x$} -- (`r A`) -- (0, `r A[2]`) node[left] {$a_y$};
+            \draw[mainColor, fill=mainColor!20] (1, 0) arc (0:`r alfa`:1) node[midway, right, yshift=5pt, xshift=-5pt] {$\alpha$} -- (O) -- cycle;
+            \draw[-latex, thick, mainColor] (O) -- (A) node[above] {$\vet{a}$};
+            \draw[-latex, thick, blue] (O) -- (B) node[above] {$\vet{b}$};
+            \draw[<->] (`r beta`:1.5) arc (`r beta`:`r alfa`: 1.5) node[midway, right, yshift=5pt, xshift=-5pt] {\small $\alpha - \beta$};
+          \end{tikzpicture}
+          \end{figure}
+        Sem perda de generalidade, consideremos $\alpha > \beta$, e os vetores como mostrados na figura acima.
+        %%
+        Conforme definição (1.6), o produto escalar entre $\vet{a}$ e $\vet{b}$ é dado por
+          $$
+            \vet{a} \cdot \vet{b} = |\vet{a}| |\vet{b}| \cos{(\alpha - \beta)}
+          $$
+          em que $\alpha - \beta$ é o ângulo entre os vetores. Por outro lado, de acordo com a definição (1.7), temos:
+          \begin{align*}
+            \vet{a} \cdot \vet{b} &= a_x b_x + a_y b_y\\
+              &= (|\vet{a}| \cos{\alpha}) (\vet{b} \cos{\beta}) + (|\vet{a}| \sin{\alpha}) (\vet{b} \sin{\beta})\\
+              &= |\vet{a}||\vet{b}| (\cos{\alpha} \cos{\beta} + \sin{\alpha} \sin{\beta})
+          \end{align*}
+      Portanto,
+      $$
+        \vet{a}\cdot \vet{b} = |\vet{a}| |\vet{b}| \cos{(\alpha - \beta)} = |\vet{a}||\vet{b}| (\cos{\alpha} \cos{\beta} + \sin{\alpha} \sin{\beta}) \Rightarrow \cos{(\alpha - \beta)} = \cos{\alpha} \cos{\beta} + \sin{\alpha} \sin{\beta}
+      $$
+      \fimSol
+      \item Calculando similarmente $\vet{a} \times \vet{b}$, mostre que
+      $$
+      \sin{(\alpha - \beta)} = \sin{\alpha} \cos{\beta} - \cos{\alpha} \sin{\beta} 
+      $$
+      \iniSol
+        Para o produto vetorial de $\vet{a}$ e $\vet{b}$, façamos:
+        \begin{small}
+        \begin{align*}
+          \vet{a} \times \vet{b} = -|\vet{a}| |\vet{b}| \sin{(\alpha - \beta)} = a_x b_y - a_y b_x &\Rightarrow -|\vet{a}| |\vet{b}| \sin{(\alpha - \beta)} = (|\vet{a}| \cos{\alpha}) (|\vet{b}| \sin{\beta}) - (|\vet{a}| \sin{\alpha}) (|\vet{b}| \cos{\beta})\\
+          &\Rightarrow -|\vet{a}||\vet{b}| \sin{(\alpha - \beta)} = |\vet{a}||\vet{b}| (\cos{\alpha} \sin{\beta} -  \sin{\alpha} \cos{\beta}) \\
+          &\Rightarrow \sin{(\alpha - \beta)} = \sin{\alpha} \cos{\beta} - \cos{\alpha} \sin{\beta}
+        \end{align*}
+        \end{small}
+      Observemos que o sinal negativo a frente de $|\vet{a}||\vet{b}| \sin{\alpha - \beta}$ advém da aplicação da ``regra da mão direita'' para determinação do sentido em que apontará o vetor $\vet{a} \times \vet{b}$.
+      \fimSol
+    \end{enumerate} 
+    %%%% Fim do Problema 1.22
+    \item O vetor desconhecido $\vet{v}$ satisfaz $\vet{b} \cdot \vet{v} = \lambda$ e $\vet{b} \times \vet{v} = \vet{c}$, onde $\lambda$, $\vet{b}$ e $\vet{c}$ são fixos e conhecidos. Determine $\vet{v}$ em termos de $\lambda$, $\vet{b}$ e $\vet{c}$.\\
+    \iniSol
+      Vamos decompor o vetor $\vet{v}$ em componentes paralela e perpendicular ao vetor $\vet{b}$, ou seja, façamos
+      $$
+        \vet{v} = \vet{v_{\parallel}} + \vet{v_{\perp}}
+      $$
+      O produto interno entre $\vet{b}$ e $\vet{v}$ é:
+      $$
+      \vet{b} \cdot \vet{v} = \vet{b} \cdot (\vet{v_{\parallel}} + \vet{v_{\perp}}) \Rightarrow \vet{b} \cdot \vet{v} = \vet{b} \cdot \vet{v_{\parallel}} + \vet{b} \cdot \vet{v_{\perp}}
+      $$
+      Observermos que $\vet{b} \cdot \vet{v_{\perp}} = 0$ pois são perpendiculares entre si. Por outro lado, definimos uma constante $k$ tal que $\vet{v_{\parallel}} = k\vet{b}$, Assim,
+      $$
+      \vet{b} \cdot \vet{v} = \vet{b} \cdot (k \vet{b}) \Rightarrow \lambda = k b^2 \Rightarrow k = \dfrac{\lambda}{b^2}
+      $$
+      Portanto, $\vet{v_{\parallel}} = \dfrac{\lambda}{b^2} \vet{b}$.
+      
+      Para detterminarmos $\vet{v_{\perp}}$, façamos:
+      \begin{align*}
+        \vet{b} \times \vet{v} = \vet{b} \times (\vet{v_{\parallel} + \vet{v_{\perp}}}) &\Rightarrow \vet{b} \times \vet{v} = \vet{b} \times \vet{v_{\parallel}} + \vet{b} \times \vet{v_{\perp}}\\
+        &\Rightarrow \vet{c}  = \vet{b} \times \vet{v_{\perp}}
+      \end{align*}
+      em que usamos o fato de que $\vet{b} \times \vet{v_\parallel} = \vet{0}$. 
+      \begin{align*}
+        \vet{b} \times \vet{c} = \vet{b} \times (\vet{b} \times \vet{v_{\perp}}) &\Rightarrow \vet{b} \times \vet{c} = (\vet{b} \cdot \vet{v_{\perp}}) \vet{b} - (\vet{b} \cdot \vet{b}) \vet{v_{\perp}}\\
+        &\Rightarrow \vet{b} \times \vet{c} = - b^2
+        \vet{v_{\perp}}\\
+        &\Rightarrow \vet{v_{\perp}} = -\dfrac{\vet{b} \times \vet{c}}{b^2}
+      \end{align*}
+      Finalmente,
+      \begin{align*}
+        \vet{v} &= \vet{v_{\parallel}} + \vet{v_{\perp}} = \dfrac{\lambda}{b^2} \vet{b} - \dfrac{\vet{b} \times \vet{c}}{b^2}\\
+        \vet{v} &= \dfrac{1}{b^2} (\lambda \vet{b} - \vet{b} \times \vet{c})
+      \end{align*}
+    \fimSol
 \end{enumerate}
