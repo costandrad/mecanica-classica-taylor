@@ -1134,3 +1134,130 @@ beta <- atan2(B[2], B[1]) * 180 / pi
       \end{align*}
     \fimSol
 \end{enumerate}
+
+\newpage
+\subsection*{Seção 1.4 Primeira e segunda leis de Newton: referenciais inerciais}
+
+\begin{enumerate}[resume]
+  \item Caso você não tenha estudado nada sobre equações diferenciais anteriormente, introduzirei as ideias à medida das necessidades. Aqui, temos um simples exercício para você iniciar: determine a solução geral da equação diferencial de primeira ordem $df/dt = f$ para uma função desconhecida $f(t)$. [Há várias formas de se fazer isso. Uma é reescrever a equação como $df/f = dt$ e então integrar ambos os lados.] Quantas constantes arbitrárias as solução geral contém? [Sua resposta deve ilustrar o importante teorema de que a solução para qualquer equação diferencial de ordem $n$ (para uma classe muito ampla de equações ``razoáveis'') contém $n$ constantes arbitrárias.]\\
+  \iniSol
+    \begin{align*}
+      \dfrac{df}{dt} = f &\Rightarrow \dfrac{df}{f} = dt \Rightarrow \int \dfrac{df}{f} = \int dt + C\\
+      &\Rightarrow \ln{|f} = t + C \Rightarrow f(t) = e^{t + C}\\
+      &\Rightarrow f(t) = k e^{t}
+    \end{align*}
+    em que $k = e^{C}$ também é uma constante.\\
+    A equação diferencial de primeira ordem $\dfrac{df}{dt} = f$ apresenta como solcução geral a família de funções  $f(t) = k e^{t}$, determinadas por uma constante arbitrária $k$. 
+  \fimSol
+  %%%% Fim do Problema 1.24
+  \item Respoda a mesma questão como no Problema 1.24, mas para a equação diferencial $df/dt = -3f$.\\
+  \iniSol
+    \begin{align*}
+      \dfrac{df}{dt} = -3f &\Rightarrow \dfrac{df}{f} = 3dt \Rightarrow \int \dfrac{df}{f} = \int dt + C\\
+      &\Rightarrow \ln{|f|} = -3t + C \\
+      &\Rightarrow f(t) = e^{-3t + C}\\
+      &\Rightarrow f(t) = k e^{-3t}
+    \end{align*}
+  \fimSol
+  %%%% Fim do Problema 1.25
+  \item A marca de um referencial inercial é que qualquer objeto que esteja sujeito a uma força resultante nula irá percorrer uma trajetória retilínea com velocidade constante. Para ilustrar isso, considere o seguinte: estou em pé no plano da origem de um referencial inercial $\mathcal{S}$ e chuto um bloco sem atrito na direção norte ao longo do plano. 
+  \begin{enumerate}[label=(\textbf{\alph*})]
+    \item Escreva as coordenadas $x$ e $y$ do bloco como função do tempo de acordo com o referencial inercial. (Use os eixos $x$ e $y$ apontando para leste e norte, respectivamente.) \\
+    \iniSol
+      No referencial $\mathcal{S}$:
+      $$
+        \begin{cases}
+          x = 0\\
+          y = v_0 t
+        \end{cases}
+      $$
+      em que $v_0$ é a velocidade desenvolvida pelo bloco após o chute.
+      \fimSol
+  \end{enumerate}
+  Agora, considere dois observadores, o primeiro em repouso no sistema $\mathcal{S}^{\prime}$ que se desloca com velocidade constante $v$ na direção leste com respeito a $\mathcal{S}$, o segundo em resouso no sistema $\mathcal{S}^{\prime\prime}$ que se desloca com \textit{aceleração} constante na direção leste com respeito a $\mathcal{S}$. (Os três sistemas coincidem no momento em que eu chuto o bloco e $\mathcal{S}^{\prime\prime}$ está em resouso relativo a $\mathcal{S}$ naquele exato momento.)
+  \begin{enumerate}[label=(\textbf{\alph*}), resume]
+    \item  Determine as coordenadas $x^{\prime}$ e $y^{\prime}$ do bloco  e descreva a trajetória do bloco conforme visto  de $\mathcal{S}^{\prime}$.\\
+    \iniSol
+      No referencial $\mathcal{S}^{\prime}$:
+      $$
+        \begin{cases}
+          x^{\prime} = x-vt\\
+          y^{\prime} = y
+        \end{cases}
+        \Rightarrow 
+        \begin{cases}
+          x^{\prime} = -vt\\
+          y^{\prime} = v_0 t
+        \end{cases}
+      $$
+      A figura seguinte mostra a trajetória do bloco vista do observador em $\mathcal{S}^{\prime}$ (a seta indica o sentido da trajetória):
+      \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+          \begin{axis}[
+            axis lines=middle,
+            xtick=\empty, ytick=\empty,
+            tick style={black},
+            xlabel={$x^{\prime}$}, ylabel={$y^{\prime}$},
+            enlargelimits=true,
+            samples = 10
+          ]
+          \addplot[
+            domain=0:5, 
+            parametric, 
+            blue, 
+            thick,
+            decoration={markings, 
+            mark=at position 0.5 with {\arrow{latex}}},
+            postaction={decorate}
+          ] ({-2*x}, {x});
+          \end{axis}
+        \end{tikzpicture}
+      \end{figure}
+    \fimSol
+    \item Faça o mesmo para $\mathcal{S}^{\prime\prime}$.\\
+    \iniSol
+      No referencial $\mathcal{S}^{\prime\prime}$:
+      $$
+        \begin{cases}
+          x^{\prime\prime} = x -\dfrac{a}{2}t^2\\
+          y^{\prime\prime} = y
+        \end{cases}
+        \Rightarrow
+        \begin{cases}
+          x^{\prime\prime} =  -\dfrac{a}{2}t^2\\
+          y^{\prime\prime} = v_0 t
+        \end{cases}
+      $$
+      em que $a$ é a aceleração do referencial $\mathcal{S}^{\prime\prime}$ em relação a $\mathcal{S}$.\\
+      A figura seguinte mostra a trajetória do bloco vista do observador em $\mathcal{S}^{\prime}$ (a seta indica o sentido da trajetória):
+      \begin{figure}[H]
+        \centering
+        \begin{tikzpicture}
+          \begin{axis}[
+            axis lines=middle,
+            xtick=\empty, ytick=\empty,
+            tick style={black},
+            xlabel={$x^{\prime}$}, ylabel={$y^{\prime}$},
+            enlargelimits=true,
+            samples = 50
+          ]
+          \addplot[
+            domain=0:5, 
+            parametric, 
+            blue, 
+            thick,
+            decoration={markings, 
+            mark=at position 0.5 with {\arrow{latex}}},
+            postaction={decorate}
+          ] ({-5*x^2}, {2*x});
+          \end{axis}
+        \end{tikzpicture}
+      \end{figure}
+    \fimSol
+  \end{enumerate}
+  Qual dos referenciais é inercial?\\
+  \iniSol
+    A trajetória vista pelo observador em $\mathcal{S}^{\prime}$ é retilínea. Logo este referencial é inercial. Por outro lado, o observador em $\mathcal{S}^{\prime\prime}$ vê o bloco seguindo uma trajetória curva. Portanto, $\mathcal{S}^{\prime\prime}$ é um referencial não-inercial.\\
+  \fimSol
+\end{enumerate}
